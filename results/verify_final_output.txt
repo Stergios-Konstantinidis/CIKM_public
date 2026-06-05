@@ -1,0 +1,57 @@
+Baseline: 597 records, avg CER: 0.063219
+Flash ER8 corrections: 620 (matched: 597)
+
+Building features and training LassoCV...
+Feature matrix: (597, 55)
+LassoCV alpha: 0.009934
+
+--- Threshold Sweep (Flash ER8 router) ---
+  Thr        Docs       %       CER
+-----------------------------------
+   0pp   526/597   88.1%    0.0284
+   1pp   427/597   71.5%    0.0291
+   2pp   314/597   52.6%    0.0302
+   3pp   242/597   40.5%    0.0325
+   4pp   176/597   29.5%    0.0355
+   5pp   130/597   21.8%    0.0391
+   6pp    95/597   15.9%    0.0425
+   7pp    81/597   13.6%    0.0441
+   8pp    62/597   10.4%    0.0459
+   9pp    54/597    9.0%    0.0472
+  10pp    42/597    7.0%    0.0498
+
+  Looking for 40.2% routing threshold...
+  Threshold 0.030 gives 242/597 = 40.5%
+  Threshold 0.031 gives 240/597 = 40.2%
+
+--- All models at 3pp threshold (242/597 = 40.5%) ---
+Model                        Full CER    Routed CER     Paper  Match Full  Match Rout
+-------------------------------------------------------------------------------------
+Gemini 3 Flash                 0.0298        0.0325     0.033                       ✓
+Gemini 3.1 Flash Lite          0.0322        0.0333     0.034                       ✓
+GPT-4o                         0.3155        0.1065     0.107                       ✓
+Qwen 2.5-72B                   0.4312        0.2091     0.212                        
+Mistral Small 3.1              5.7844        0.9604     0.989                        
+
+--- Diagnostics ---
+
+  GPT-4o: help=352, hurt=90, matched=597
+    CER: min=0.0000 med=0.0147 mean=0.3155 max=83.1429
+    CER>1.0: 9 files
+    issue_12_page_1_region_1672.png: baseline=0.0000 corrected=83.1429
+    issue_12_page_1_region_1674.png: baseline=0.0000 corrected=33.6667
+    issue_12_page_1_region_1678.png: baseline=0.0408 corrected=32.5714
+
+  Qwen 2.5-72B: help=282, hurt=179, matched=597
+    CER: min=0.0000 med=0.0233 mean=0.4312 max=53.5000
+    CER>1.0: 35 files
+    issue_28_page_12_region_2121.png: baseline=0.1250 corrected=53.5000
+    issue_43_page_1_region_5344.png: baseline=0.0000 corrected=28.2857
+    issue_31_page_1_region_4239.png: baseline=0.1429 corrected=10.9048
+
+  Mistral Small 3.1: help=132, hurt=401, matched=597
+    CER: min=0.0000 med=0.1111 mean=5.7844 max=1741.2400
+    CER>1.0: 43 files
+    issue_36_page_1_region_5694.png: baseline=0.0000 corrected=1741.2400
+    issue_20_page_2_region_6150.png: baseline=0.0000 corrected=538.8125
+    issue_43_page_1_region_5361.png: baseline=0.2500 corrected=262.2500

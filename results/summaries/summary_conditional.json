@@ -1,0 +1,258 @@
+[
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_5_meta-llama",
+    "llm_model": "_llama-3.3-70b-instruct",
+    "average_wer": 0.7055630169837341,
+    "average_cer": 0.2720561510077104,
+    "cost": 0.010569322627737226
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_10_google",
+    "llm_model": "_gemini-3-flash-preview",
+    "average_wer": 0.27965822910371235,
+    "average_cer": 0.0802069380759083,
+    "cost": 0.008893281021897811
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_5_meta-llama",
+    "llm_model": "_llama-3.3-70b-instruct",
+    "average_wer": 0.2343614123644693,
+    "average_cer": 0.07607477906515195,
+    "cost": 0.008022847384615384
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_5_google",
+    "llm_model": "_gemini-3.1-flash-lite-preview",
+    "average_wer": 0.1988129014732963,
+    "average_cer": 0.05862537528459334,
+    "cost": 0.005309937692307691
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_5_openai",
+    "llm_model": "_gpt-4o-mini",
+    "average_wer": 0.5046304123295078,
+    "average_cer": 0.2889607806164514,
+    "cost": 0.01052282769230769
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_5_google",
+    "llm_model": "_gemini-3.1-flash-lite-preview",
+    "average_wer": 0.29097808254353275,
+    "average_cer": 0.10842533203202624,
+    "cost": 0.007696310869565218
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_5_google",
+    "llm_model": "_gemini-3-flash-preview",
+    "average_wer": 0.192178250218057,
+    "average_cer": 0.04710295301750443,
+    "cost": 0.007787282608695654
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_10_google",
+    "llm_model": "_gemini-3-flash-preview",
+    "average_wer": 0.19297871469850006,
+    "average_cer": 0.04773650472616301,
+    "cost": 0.009885482608695652
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_10_google",
+    "llm_model": "_gemini-3-flash-preview",
+    "average_wer": 0.1729244946120728,
+    "average_cer": 0.04909284934602573,
+    "cost": 0.006405445384615384
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_10_openai",
+    "llm_model": "_gpt-4o-mini",
+    "average_wer": 0.23580271496939045,
+    "average_cer": 0.09063443720208345,
+    "cost": 0.019880963999999994
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_5_google",
+    "llm_model": "_gemini-3.1-flash-lite-preview",
+    "average_wer": 0.12409386062718304,
+    "average_cer": 0.0446647687134087,
+    "cost": 0.007901655428571425
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_5_google",
+    "llm_model": "_gemini-3.1-flash-lite-preview",
+    "average_wer": 0.2777858480442635,
+    "average_cer": 0.08112945381115108,
+    "cost": 0.0072426131386861305
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_10_meta-llama",
+    "llm_model": "_llama-3.3-70b-instruct",
+    "average_wer": 0.2410119165017689,
+    "average_cer": 0.0793307403608905,
+    "cost": 0.009640110461538462
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_10_meta-llama",
+    "llm_model": "_llama-3.3-70b-instruct",
+    "average_wer": 0.35973596597623125,
+    "average_cer": 0.1315330786511852,
+    "cost": 0.01316212695652174
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_10_google",
+    "llm_model": "_gemini-3.1-flash-lite-preview",
+    "average_wer": 0.18624153576994704,
+    "average_cer": 0.05593125381127026,
+    "cost": 0.006327449999999999
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_10_openai",
+    "llm_model": "_gpt-4o-mini",
+    "average_wer": 0.5975562922832388,
+    "average_cer": 0.17227917126388667,
+    "cost": 0.021057722627737224
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_10_google",
+    "llm_model": "_gemini-3-flash-preview",
+    "average_wer": 0.13638543486269847,
+    "average_cer": 0.03662831886570933,
+    "cost": 0.009071501142857142
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_5_meta-llama",
+    "llm_model": "_llama-3.3-70b-instruct",
+    "average_wer": 0.44057831087440713,
+    "average_cer": 0.1951274407863085,
+    "cost": 0.011502377391304346
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_5_meta-llama",
+    "llm_model": "_llama-3.3-70b-instruct",
+    "average_wer": 0.4681789967872557,
+    "average_cer": 0.306119528643931,
+    "cost": 0.012120147085714288
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_5_openai",
+    "llm_model": "_gpt-4o-mini",
+    "average_wer": 0.9560377442326292,
+    "average_cer": 0.8185716071489186,
+    "cost": 0.018877417714285714
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_10_google",
+    "llm_model": "_gemini-3.1-flash-lite-preview",
+    "average_wer": 0.28080232809731814,
+    "average_cer": 0.08189246174857509,
+    "cost": 0.00862412408759124
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_5_google",
+    "llm_model": "_gemini-3-flash-preview",
+    "average_wer": 0.13028162016316852,
+    "average_cer": 0.04851070451934572,
+    "cost": 0.007708818857142856
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_10_meta-llama",
+    "llm_model": "_llama-3.3-70b-instruct",
+    "average_wer": 0.24119053425036457,
+    "average_cer": 0.1292531118074986,
+    "cost": 0.014384753142857143
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_10_meta-llama",
+    "llm_model": "_llama-3.3-70b-instruct",
+    "average_wer": 0.4034687184472954,
+    "average_cer": 0.12854452303633968,
+    "cost": 0.015345389781021897
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_10_google",
+    "llm_model": "_gemini-3.1-flash-lite-preview",
+    "average_wer": 0.19689267589569281,
+    "average_cer": 0.056566262673729543,
+    "cost": 0.008978308695652172
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_5_openai",
+    "llm_model": "_gpt-4o-mini",
+    "average_wer": 0.8803524915646066,
+    "average_cer": 0.42245008447130833,
+    "cost": 0.0160953
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_5_google",
+    "llm_model": "_gemini-3-flash-preview",
+    "average_wer": 0.18305771530334466,
+    "average_cer": 0.057372361425783155,
+    "cost": 0.005183716153846154
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_10_openai",
+    "llm_model": "_gpt-4o-mini",
+    "average_wer": 0.598495595312055,
+    "average_cer": 0.36184259279849645,
+    "cost": 0.012498313846153842
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_5_openai",
+    "llm_model": "_gpt-4o-mini",
+    "average_wer": 0.6154823221594156,
+    "average_cer": 0.2751614663210493,
+    "cost": 0.01839433576642336
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_10_openai",
+    "llm_model": "_gpt-4o-mini",
+    "average_wer": 0.5968925104719599,
+    "average_cer": 0.15809815770078314,
+    "cost": 0.022607452173913044
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "ConditionalFull_10_google",
+    "llm_model": "_gemini-3.1-flash-lite-preview",
+    "average_wer": 0.1305663482806695,
+    "average_cer": 0.04452423793860253,
+    "cost": 0.008739123428571426
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "ConditionalFull_5_google",
+    "llm_model": "_gemini-3-flash-preview",
+    "average_wer": 0.26701817423325,
+    "average_cer": 0.08011720256233675,
+    "cost": 0.007127748175182481
+  }
+]

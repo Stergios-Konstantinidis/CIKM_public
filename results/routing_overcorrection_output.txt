@@ -1,0 +1,68 @@
+Loading baseline...
+  597 records, baseline CER=0.0632
+Building features...
+  Features: (597, 55)
+Training router on Flash ER8...
+  LassoCV alpha=0.009934
+  Route mask: 242/597 (40.5%)
+
+==========================================================================================
+ROUTING ANALYSIS: Does the Flash router avoid overcorrection?
+Router: LassoCV trained on Flash ER8, threshold=3pp, routes 242/597 (40.5%)
+Baseline CER: 0.0632
+==========================================================================================
+
+Model                        Full CER    Routed CER    Baseline    Full Δ    Routed Δ
+-------------------------------------------------------------------------------------
+Gemini 3 Flash                 0.0298        0.0325      0.0632   +0.0335     +0.0307
+Gemini 3.1 Flash Lite          0.0322        0.0333      0.0632   +0.0310     +0.0299
+GPT-4o                         0.3155        0.1065      0.0632   -0.2523     -0.0432
+Qwen 2.5-72B                   0.4312        0.2091      0.0632   -0.3680     -0.1459
+Mistral Small 3.1              5.7844        0.9604      0.0632   -5.7212     -0.8971
+
+
+==========================================================================================
+DETAILED OVERCORRECTION ANALYSIS
+==========================================================================================
+
+  Gemini 3 Flash:
+    Total: 385 helped, 44 hurt
+    ROUTED  (242 docs): help=200  hurt= 12  same= 30  avg_delta=+0.0757
+    FILTERED(355 docs): help=185  hurt= 32  same=138  avg_delta=+0.0047
+    → 32/44 (73%) of HURT docs were FILTERED OUT by router
+    → 200/385 (52%) of HELPED docs were ROUTED
+
+  Gemini 3.1 Flash Lite:
+    Total: 392 helped, 64 hurt
+    ROUTED  (242 docs): help=199  hurt= 19  same= 24  avg_delta=+0.0737
+    FILTERED(355 docs): help=193  hurt= 45  same=117  avg_delta=+0.0018
+    → 45/64 (70%) of HURT docs were FILTERED OUT by router
+    → 199/392 (51%) of HELPED docs were ROUTED
+    → Catastrophic (CER>1): 0/1 routed, 1/1 filtered
+
+  GPT-4o:
+    Total: 352 helped, 90 hurt
+    ROUTED  (242 docs): help=174  hurt= 28  same= 40  avg_delta=-0.1067
+    FILTERED(355 docs): help=178  hurt= 62  same=115  avg_delta=-0.3516
+    → 62/90 (69%) of HURT docs were FILTERED OUT by router
+    → 174/352 (49%) of HELPED docs were ROUTED
+    → Catastrophic (CER>1): 3/9 routed, 6/9 filtered
+
+  Qwen 2.5-72B:
+    Total: 282 helped, 179 hurt
+    ROUTED  (242 docs): help=144  hurt= 65  same= 33  avg_delta=-0.3598
+    FILTERED(355 docs): help=138  hurt=114  same=103  avg_delta=-0.3735
+    → 114/179 (64%) of HURT docs were FILTERED OUT by router
+    → 144/282 (51%) of HELPED docs were ROUTED
+    → Catastrophic (CER>1): 8/35 routed, 27/35 filtered
+
+  Mistral Small 3.1:
+    Total: 132 helped, 401 hurt
+    ROUTED  (242 docs): help= 84  hurt=137  same= 21  avg_delta=-2.2132
+    FILTERED(355 docs): help= 48  hurt=264  same= 43  avg_delta=-8.1126
+    → 264/401 (66%) of HURT docs were FILTERED OUT by router
+    → 84/132 (64%) of HELPED docs were ROUTED
+    → Catastrophic (CER>1): 17/43 routed, 26/43 filtered
+
+
+Done.

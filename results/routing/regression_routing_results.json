@@ -1,0 +1,287 @@
+{
+  "oracle": {
+    "label": "Oracle (actual WER threshold)",
+    "baseline_wer": 0.24384799599647522,
+    "n_test": 239,
+    "rows": [
+      {
+        "threshold": 0.1,
+        "frac_routed": 0.6736401673640168,
+        "n_routed": 161,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.3263598326359832,
+        "coverage": 0.4472049689440994
+      },
+      {
+        "threshold": 0.15,
+        "frac_routed": 0.5313807531380753,
+        "n_routed": 127,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.4686192468619247,
+        "coverage": 0.4566929133858268
+      },
+      {
+        "threshold": 0.2,
+        "frac_routed": 0.4476987447698745,
+        "n_routed": 107,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.5523012552301255,
+        "coverage": 0.4672897196261682
+      },
+      {
+        "threshold": 0.25,
+        "frac_routed": 0.34309623430962344,
+        "n_routed": 82,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.6569037656903766,
+        "coverage": 0.4878048780487805
+      },
+      {
+        "threshold": 0.3,
+        "frac_routed": 0.24267782426778242,
+        "n_routed": 58,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.7573221757322176,
+        "coverage": 0.4827586206896552
+      },
+      {
+        "threshold": 0.35,
+        "frac_routed": 0.14225941422594143,
+        "n_routed": 34,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.8577405857740585,
+        "coverage": 0.38235294117647056
+      },
+      {
+        "threshold": 0.4,
+        "frac_routed": 0.12552301255230125,
+        "n_routed": 30,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.8744769874476988,
+        "coverage": 0.4
+      },
+      {
+        "threshold": 0.45,
+        "frac_routed": 0.09623430962343096,
+        "n_routed": 23,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9037656903765691,
+        "coverage": 0.391304347826087
+      },
+      {
+        "threshold": 0.5,
+        "frac_routed": 0.08786610878661087,
+        "n_routed": 21,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9121338912133892,
+        "coverage": 0.38095238095238093
+      },
+      {
+        "threshold": 0.55,
+        "frac_routed": 0.058577405857740586,
+        "n_routed": 14,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9414225941422594,
+        "coverage": 0.35714285714285715
+      },
+      {
+        "threshold": 0.6,
+        "frac_routed": 0.0502092050209205,
+        "n_routed": 12,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9497907949790795,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "threshold": 0.65,
+        "frac_routed": 0.04184100418410042,
+        "n_routed": 10,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9581589958158996,
+        "coverage": 0.3
+      },
+      {
+        "threshold": 0.7,
+        "frac_routed": 0.03765690376569038,
+        "n_routed": 9,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9623430962343096,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "threshold": 0.75,
+        "frac_routed": 0.03765690376569038,
+        "n_routed": 9,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9623430962343096,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "threshold": 0.8,
+        "frac_routed": 0.03765690376569038,
+        "n_routed": 9,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9623430962343096,
+        "coverage": 0.3333333333333333
+      }
+    ]
+  },
+  "ridge": {
+    "label": "Ridge WER Prediction (routing)",
+    "baseline_wer": 0.24384799599647522,
+    "n_test": 239,
+    "rows": [
+      {
+        "threshold": 0.1,
+        "frac_routed": 0.6610878661087866,
+        "n_routed": 158,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.33891213389121344,
+        "coverage": 0.4620253164556962
+      },
+      {
+        "threshold": 0.15,
+        "frac_routed": 0.5439330543933054,
+        "n_routed": 130,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.4560669456066946,
+        "coverage": 0.47692307692307695
+      },
+      {
+        "threshold": 0.2,
+        "frac_routed": 0.4435146443514644,
+        "n_routed": 106,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.5564853556485356,
+        "coverage": 0.5094339622641509
+      },
+      {
+        "threshold": 0.25,
+        "frac_routed": 0.32217573221757323,
+        "n_routed": 77,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.6778242677824268,
+        "coverage": 0.4935064935064935
+      },
+      {
+        "threshold": 0.3,
+        "frac_routed": 0.2594142259414226,
+        "n_routed": 62,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.7405857740585774,
+        "coverage": 0.5161290322580645
+      },
+      {
+        "threshold": 0.35,
+        "frac_routed": 0.17573221757322174,
+        "n_routed": 42,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.8242677824267782,
+        "coverage": 0.47619047619047616
+      },
+      {
+        "threshold": 0.4,
+        "frac_routed": 0.1297071129707113,
+        "n_routed": 31,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.8702928870292888,
+        "coverage": 0.41935483870967744
+      },
+      {
+        "threshold": 0.45,
+        "frac_routed": 0.100418410041841,
+        "n_routed": 24,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.899581589958159,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "threshold": 0.5,
+        "frac_routed": 0.07531380753138076,
+        "n_routed": 18,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9246861924686193,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "threshold": 0.55,
+        "frac_routed": 0.07112970711297072,
+        "n_routed": 17,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9288702928870293,
+        "coverage": 0.29411764705882354
+      },
+      {
+        "threshold": 0.6,
+        "frac_routed": 0.06694560669456066,
+        "n_routed": 16,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9330543933054394,
+        "coverage": 0.25
+      },
+      {
+        "threshold": 0.65,
+        "frac_routed": 0.06694560669456066,
+        "n_routed": 16,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9330543933054394,
+        "coverage": 0.25
+      },
+      {
+        "threshold": 0.7,
+        "frac_routed": 0.06276150627615062,
+        "n_routed": 15,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9372384937238494,
+        "coverage": 0.26666666666666666
+      },
+      {
+        "threshold": 0.75,
+        "frac_routed": 0.05439330543933055,
+        "n_routed": 13,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9456066945606695,
+        "coverage": 0.3076923076923077
+      },
+      {
+        "threshold": 0.8,
+        "frac_routed": 0.05439330543933055,
+        "n_routed": 13,
+        "avg_wer_after": 0.24384799599647522,
+        "wer_reduction": 0.0,
+        "savings": 0.9456066945606695,
+        "coverage": 0.3076923076923077
+      }
+    ]
+  },
+  "correction_source": "/Users/stergios/Documents/GitHub/DocEng_2-OCR-experiment/results/tesseract_Selective_thr90_Ultimate_Master_10_google__gemini-3-flash-preview.json"
+}

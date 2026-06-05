@@ -1,0 +1,113 @@
+Baseline records: 597
+Baseline avg CER: 0.063219
+  Gemini 3 Flash: 620 in file, 597 matched baseline
+  Gemini 3.1 Flash Lite: 620 in file, 597 matched baseline
+  GPT-4o: 620 in file, 597 matched baseline
+  Qwen 2.5-72B: 620 in file, 597 matched baseline
+  Mistral Small 3.1: 620 in file, 597 matched baseline
+
+--- Training LassoCV Router on Flash CER deltas ---
+  [tesseract] 597 valid baseline records
+  [tesseract] confidence lookup: 632 entries
+  Building 54-d features for 597 records …
+
+--- Routing Results ---
+
+  Threshold: 0pp (0.00), Routed: 526/597 (88.1%)
+  Model                        Routed CER      Full CER   Paper CER
+  -----------------------------------------------------------------
+  Gemini 3 Flash                 0.028383      0.029768       0.033  
+  Gemini 3.1 Flash Lite          0.031231      0.032247       0.034  
+  GPT-4o                         0.116898      0.315545       0.107  
+  Qwen 2.5-72B                   0.381034      0.431176       0.212  
+  Mistral Small 3.1              4.199087      5.784418       0.989  
+
+  Threshold: 1pp (0.01), Routed: 427/597 (71.5%)
+  Model                        Routed CER      Full CER   Paper CER
+  -----------------------------------------------------------------
+  Gemini 3 Flash                 0.029147      0.029768       0.033  
+  Gemini 3.1 Flash Lite          0.032449      0.032247       0.034  
+  GPT-4o                         0.117685      0.315545       0.107  
+  Qwen 2.5-72B                   0.329539      0.431176       0.212  
+  Mistral Small 3.1              1.102776      5.784418       0.989  
+
+  Threshold: 2pp (0.02), Routed: 314/597 (52.6%)
+  Model                        Routed CER      Full CER   Paper CER
+  -----------------------------------------------------------------
+  Gemini 3 Flash                 0.030239      0.029768       0.033  
+  Gemini 3.1 Flash Lite          0.033967      0.032247       0.034  ✓
+  GPT-4o                         0.112096      0.315545       0.107  
+  Qwen 2.5-72B                   0.232683      0.431176       0.212  
+  Mistral Small 3.1              1.028685      5.784418       0.989  
+
+  Threshold: 3pp (0.03), Routed: 242/597 (40.5%)
+  Model                        Routed CER      Full CER   Paper CER
+  -----------------------------------------------------------------
+  Gemini 3 Flash                 0.032550      0.029768       0.033  ✓
+  Gemini 3.1 Flash Lite          0.033325      0.032247       0.034  ✓
+  GPT-4o                         0.106452      0.315545       0.107  ✓
+  Qwen 2.5-72B                   0.209084      0.431176       0.212  
+  Mistral Small 3.1              0.960365      5.784418       0.989  
+
+  Threshold: 4pp (0.04), Routed: 176/597 (29.5%)
+  Model                        Routed CER      Full CER   Paper CER
+  -----------------------------------------------------------------
+  Gemini 3 Flash                 0.035542      0.029768       0.033  
+  Gemini 3.1 Flash Lite          0.035634      0.032247       0.034  ✓
+  GPT-4o                         0.101401      0.315545       0.107  
+  Qwen 2.5-72B                   0.171769      0.431176       0.212  
+  Mistral Small 3.1              0.945825      5.784418       0.989  
+
+  Threshold: 5pp (0.05), Routed: 130/597 (21.8%)
+  Model                        Routed CER      Full CER   Paper CER
+  -----------------------------------------------------------------
+  Gemini 3 Flash                 0.039129      0.029768       0.033  
+  Gemini 3.1 Flash Lite          0.039155      0.032247       0.034  
+  GPT-4o                         0.102676      0.315545       0.107  
+  Qwen 2.5-72B                   0.171841      0.431176       0.212  
+  Mistral Small 3.1              0.931384      5.784418       0.989  
+
+
+=== Trying ALL Full_ correction files for each model ===
+
+  GPT-4o: 10 Full_ correction files
+    tesseract_Full_Advanced_5_openai__gpt-4o            full=0.0562  routed=0.0609
+    tesseract_Full_Advanced_plus_6_openai__gpt-4o       full=0.0559  routed=0.0595
+    tesseract_Full_Basic_1_openai__gpt-4o               full=0.0560  routed=0.0592
+    tesseract_Full_Basic_plus_2_openai__gpt-4o          full=0.0599  routed=0.0614
+    tesseract_Full_Expert_Few_Shot_7_openai__gpt-4o     full=0.0856  routed=0.0877
+    tesseract_Full_Expert_Robuste_8_openai__gpt-4o      full=0.3155  routed=0.1027
+    tesseract_Full_Intermediate_3_openai__gpt-4o        full=0.2632  routed=0.0588
+    tesseract_Full_Intermediate_plus_4_openai__gpt-4o   full=0.1169  routed=0.0819
+    ract_Full_Master_Chain_of_Thought_9_openai__gpt-4o  full=0.0566  routed=0.0597
+    tesseract_Full_Ultimate_Master_10_openai__gpt-4o    full=0.0582  routed=0.0605
+    Best routed: 0.058760 (eract_Full_Intermediate_3_openai__gpt-4o)
+    Best full:   0.055932 (ract_Full_Advanced_plus_6_openai__gpt-4o)
+
+  Qwen 2.5-72B: 10 Full_ correction files
+    seract_Full_Advanced_5_qwen__qwen-2.5-72b-instruct  full=0.3391  routed=0.1168
+    t_Full_Advanced_plus_6_qwen__qwen-2.5-72b-instruct  full=0.5014  routed=0.2363
+    tesseract_Full_Basic_1_qwen__qwen-2.5-72b-instruct  full=0.0584  routed=0.0596
+    ract_Full_Basic_plus_2_qwen__qwen-2.5-72b-instruct  full=0.2270  routed=0.1476
+    Full_Expert_Few_Shot_7_qwen__qwen-2.5-72b-instruct  full=0.2642  routed=0.2028
+    _Full_Expert_Robuste_8_qwen__qwen-2.5-72b-instruct  full=0.4312  routed=0.1718
+    ct_Full_Intermediate_3_qwen__qwen-2.5-72b-instruct  full=0.4769  routed=0.1555
+    ll_Intermediate_plus_4_qwen__qwen-2.5-72b-instruct  full=0.1068  routed=0.0955
+    ter_Chain_of_Thought_9_qwen__qwen-2.5-72b-instruct  full=0.3200  routed=0.2229
+    ull_Ultimate_Master_10_qwen__qwen-2.5-72b-instruct  full=0.2589  routed=0.1851
+    Best routed: 0.059592 (Full_Basic_1_qwen__qwen-2.5-72b-instruct)
+    Best full:   0.058444 (Full_Basic_1_qwen__qwen-2.5-72b-instruct)
+
+  Mistral Small 3.1: 10 Full_ correction files
+    vanced_5_mistralai__mistral-small-3.1-24b-instruct  full=0.1531  routed=0.1502
+    d_plus_6_mistralai__mistral-small-3.1-24b-instruct  full=0.0623  routed=0.0648
+    _Basic_1_mistralai__mistral-small-3.1-24b-instruct  full=0.0862  routed=0.0610
+    c_plus_2_mistralai__mistral-small-3.1-24b-instruct  full=0.0673  routed=0.0625
+    w_Shot_7_mistralai__mistral-small-3.1-24b-instruct  full=0.0602  routed=0.0600
+    obuste_8_mistralai__mistral-small-3.1-24b-instruct  full=5.7844  routed=0.9314
+    ediate_3_mistralai__mistral-small-3.1-24b-instruct  full=0.3008  routed=0.0655
+    e_plus_4_mistralai__mistral-small-3.1-24b-instruct  full=1.3508  routed=0.0829
+    hought_9_mistralai__mistral-small-3.1-24b-instruct  full=0.1711  routed=0.1068
+    aster_10_mistralai__mistral-small-3.1-24b-instruct  full=0.0585  routed=0.0612
+    Best routed: 0.060003 (istralai__mistral-small-3.1-24b-instruct)
+    Best full:   0.058514 (istralai__mistral-small-3.1-24b-instruct)

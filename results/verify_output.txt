@@ -1,0 +1,106 @@
+======================================================================
+VERIFICATION: Table 3 — LLM Cost Comparison
+======================================================================
+
+── Loading baseline records ──
+  [tesseract] 597 valid baseline records
+  [tesseract] confidence lookup: 632 entries
+  Total baseline records: 597
+
+── Building features ──
+  Building 54-d features for 597 records …
+  Feature matrix: (597, 55)
+
+  Baseline avg CER: 0.063219
+  Baseline avg WER: 0.233532
+
+── Loading corrections for each model ──
+  Loading corrections from corrections/tesseract/tesseract_Full_Advanced_5_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+  Gemini 3 Flash: 597/597 records matched
+  Loading corrections from corrections/tesseract/tesseract_Full_Advanced_5_google__gemini-3.1-flash-lite-preview.json
+  Loaded corrections for 258 documents
+  Gemini 3.1 Flash Lite: 235/597 records matched
+  Loading corrections from corrections/tesseract/tesseract_Full_Advanced_5_openai__gpt-4o.json
+  Loaded corrections for 258 documents
+  GPT-4o: 235/597 records matched
+  Loading corrections from corrections/tesseract/tesseract_Full_Advanced_5_qwen__qwen-2.5-72b-instruct.json
+  Loaded corrections for 258 documents
+  Qwen 2.5-72B: 235/597 records matched
+  Loading corrections from corrections/tesseract/tesseract_Full_Advanced_5_mistralai__mistral-small-3.1-24b-instruct.json
+  Loaded corrections for 258 documents
+  Mistral Small 3.1: 235/597 records matched
+
+── Full correction CER (correct everything) ──
+  Model                        Full CER    Full WER       CER Δ       WER Δ
+  ----------------------------------------------------------------------
+  Gemini 3 Flash               0.034795    0.112725   +0.028423   +0.120807
+  Gemini 3.1 Flash Lite        0.053207    0.188745   +0.010012   +0.044787
+  GPT-4o                       0.056211    0.192713   +0.007007   +0.040819
+  Qwen 2.5-72B                 0.339065    0.568298   -0.275846   -0.334766
+  Mistral Small 3.1            0.153111    0.302557   -0.089893   -0.069026
+
+── Training LassoCV router on Gemini 3 Flash CER deltas ──
+  LassoCV alpha: 0.017632
+  Pearson r: 0.4459 (p=1.66e-30)
+  R² (sklearn-style): 0.1536
+  Non-zero coefficients: 5/55
+
+  Routing threshold: Δ_CER >= 0.03
+  Documents routed: 189/597 (31.7%)
+
+── Routed CER (route_mask from Flash router, threshold=0.03) ──
+  Model                        Baseline    Full CER  Routed CER    % Sent
+  ---------------------------------------------------------------------------
+  Gemini 3 Flash               0.063219    0.034795    0.037036     31.7%
+  Gemini 3.1 Flash Lite        0.063219    0.053207    0.055526     31.7%
+  GPT-4o                       0.063219    0.056211    0.058510     31.7%
+  Qwen 2.5-72B                 0.063219    0.339065    0.116683     31.7%
+  Mistral Small 3.1            0.063219    0.153111    0.149532     31.7%
+
+── Comparison with paper Table values ──
+  Model                       Paper CER   Computed Full    Match?
+  -----------------------------------------------------------------
+  Gemini 3 Flash                  0.033        0.034795         ✓
+  Gemini 3.1 Flash Lite           0.034        0.053207         ✗
+  GPT-4o                          0.107        0.056211         ✗
+  Qwen 2.5-72B                    0.212        0.339065         ✗
+  Mistral Small 3.1               0.989        0.153111         ✗
+
+── Diagnostic: Sample corrections for outlier models ──
+
+  GPT-4o:
+    Help: 139  Hurt: 20  Same: 76
+    Avg CER delta: 0.017801
+    Median CER delta: 0.011173
+    Min delta: -0.488889  Max delta: 0.406977
+    Top 5 worst corrections (biggest CER increase):
+      issue_24_page_1_region_1958.png: 0.1000 → 0.5889 (Δ=+0.4889)
+      issue_28_page_11_region_2116.png: 0.0118 → 0.1647 (Δ=+0.1529)
+      issue_34_page_1_region_2066.png: 0.1000 → 0.2000 (Δ=+0.1000)
+      issue_24_page_1_region_1970.png: 0.0000 → 0.0938 (Δ=+0.0938)
+      issue_34_page_1_region_2068.png: 0.0000 → 0.0667 (Δ=+0.0667)
+
+  Qwen 2.5-72B:
+    Help: 121  Hurt: 55  Same: 59
+    Avg CER delta: -0.700767
+    Median CER delta: 0.002577
+    Min delta: -83.000000  Max delta: 0.406977
+    Top 5 worst corrections (biggest CER increase):
+      issue_12_page_1_region_1672.png: 0.0000 → 83.0000 (Δ=+83.0000)
+      issue_12_page_1_region_1674.png: 0.0000 → 33.5333 (Δ=+33.5333)
+      issue_12_page_1_region_1678.png: 0.0408 → 32.3878 (Δ=+32.3469)
+      issue_24_page_1_region_1959.png: 0.0000 → 6.1429 (Δ=+6.1429)
+      issue_12_page_1_region_1663.png: 0.0081 → 1.7439 (Δ=+1.7358)
+
+  Mistral Small 3.1:
+    Help: 118  Hurt: 48  Same: 69
+    Avg CER delta: -0.228366
+    Median CER delta: 0.002732
+    Min delta: -28.923077  Max delta: 0.142857
+    Top 5 worst corrections (biggest CER increase):
+      issue_9_page_4_region_1487.png: 0.2308 → 29.1538 (Δ=+28.9231)
+      issue_9_page_3_region_1470.png: 0.2000 → 22.2000 (Δ=+22.0000)
+      issue_9_page_3_region_1477.png: 0.1053 → 0.8421 (Δ=+0.7368)
+      issue_9_page_3_region_1478.png: 0.0882 → 0.7824 (Δ=+0.6942)
+      issue_9_page_3_region_1472.png: 0.0000 → 0.6667 (Δ=+0.6667)

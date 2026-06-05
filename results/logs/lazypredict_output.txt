@@ -1,0 +1,48 @@
+
+=================================================================
+LazyPredict — Finding the Best Model for Selective Routing
+=================================================================
+  [tesseract] 597 valid baseline records
+  [tesseract] confidence lookup: 261 entries
+  Loading corrections from tesseract_Full_Advanced_5_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+
+  Building features …
+  Building 54-d features for 597 records …
+
+  Generating labels for WER with delta > 0.0 …
+  Train shape: (447, 54), Test shape: (150, 54)
+
+  Running LazyClassifier … (this might take a minute)
+
+================================================================================
+  LAZYPREDICT RESULTS RANKING (WER > 0)
+================================================================================
+                             Accuracy  Balanced Accuracy  ...    Recall  Time Taken
+Model                                                     ...                      
+AdaBoostClassifier           0.766667           0.757252  ...  0.766667    0.069949
+BaggingClassifier            0.733333           0.730706  ...  0.733333    0.041825
+NuSVC                        0.740000           0.729885  ...  0.740000    0.013958
+ExtraTreesClassifier         0.740000           0.725506  ...  0.740000    0.062676
+RandomForestClassifier       0.740000           0.721128  ...  0.740000    0.096213
+NearestCentroid              0.740000           0.721128  ...  0.740000    0.006507
+BernoulliNB                  0.726667           0.718391  ...  0.726667    0.006474
+SVC                          0.720000           0.710454  ...  0.720000    0.012947
+KNeighborsClassifier         0.733333           0.708812  ...  0.733333    0.025781
+LinearSVC                    0.713333           0.700328  ...  0.713333    0.008253
+LogisticRegression           0.713333           0.698139  ...  0.713333    0.007533
+LabelSpreading               0.693333           0.696223  ...  0.693333    0.008131
+CalibratedClassifierCV       0.713333           0.693760  ...  0.713333    0.022879
+RidgeClassifier              0.713333           0.693760  ...  0.713333    0.006518
+LinearDiscriminantAnalysis   0.713333           0.693760  ...  0.713333    0.007179
+RidgeClassifierCV            0.713333           0.691571  ...  0.713333    0.007379
+GaussianNB                   0.706667           0.690203  ...  0.706667    0.005960
+LabelPropagation             0.686667           0.688287  ...  0.686667    0.008336
+Perceptron                   0.693333           0.683087  ...  0.693333    0.006098
+PassiveAggressiveClassifier  0.666667           0.655720  ...  0.666667    0.006896
+DecisionTreeClassifier       0.640000           0.623974  ...  0.640000    0.011002
+ExtraTreeClassifier          0.633333           0.616037  ...  0.633333    0.005916
+SGDClassifier                0.573333           0.570881  ...  0.573333    0.007122
+DummyClassifier              0.580000           0.500000  ...  0.580000    0.005702
+
+[24 rows x 7 columns]

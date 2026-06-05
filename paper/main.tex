@@ -1,0 +1,420 @@
+%%
+%% This is file `main.tex',
+%% Curated for CIKM 2026 — Short Paper (4 pages).
+%%
+\documentclass[sigconf]{acmart}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{standalone}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, backgrounds}
+
+
+
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+%% Rights management information.
+\setcopyright{acmlicensed}
+\copyrightyear{2026}
+\acmYear{2026}
+\acmDOI{XXXXXXX.XXXXXXX}
+\acmConference[CIKM '26]{Proceedings of the 35th ACM International Conference on Information and Knowledge Management}{November 7--11, 2026}{Rome, Italy}
+\acmISBN{978-1-4503-XXXX-X/26/11}
+
+\begin{document}
+
+\title{Knowing When to Correct: Cost-Aware LLM Routing for OCR Post-Correction in Historical Documents}
+\author{Anonymised for review}
+%\author{Stergios Konstantinidis}
+%\affiliation{%
+%  \institution{University of Lausanne}
+%  \city{Lausanne}
+%  \country{Switzerland}}
+%\email{stergios@unil.ch}
+%
+%\author{Hayman Lotfy}
+%\affiliation{%
+%  \institution{University of Lausanne}
+%  \city{Lausanne}
+%  \country{Switzerland}}
+%  \email{hayman.lotfy@unil.ch}
+%
+%\author{Michalis Vlachos}
+%\affiliation{%
+%  \institution{University of Lausanne}
+%  \city{Lausanne}
+%  \country{Switzerland}}
+%\email{michalis.vlachos@unil.ch}
+
+%\renewcommand{\shortauthors}{Konstantinidis et al.}
+\renewcommand{\shortauthors}{Anonymised for review}
+\begin{abstract}
+Historical digital archives present new challenges for OCR and retrieval systems because of errors introduced by degraded page quality, old typefaces, and complex page layouts. Large language models (LLMs) offer an effective means of correcting OCR errors without requiring costly reprocessing of scanned documents. However, applying LLM-based correction at scale can itself become prohibitively expensive due to API usage costs. This work investigates a selective and cost-aware strategy for LLM-assisted OCR post-correction. Our approach uses pre-correction signals, including OCR confidence, surface statistics, historical-lexicon features, and corpus-trained Markovian contextual features, to predict when LLM-based correction is likely to improve transcription quality. 
+We evaluate this strategy across multiple OCR engines on a curated dataset comprising nine historical Swiss newspapers published between 1733 and 1945. Our results show that selective correction can retain most of the quality gains of full correction while substantially reducing the LLM token cost. On Tesseract OCR, full LLM correction reduces CER from 6.32\% to 2.98\% and WER from 23.35\% to 9.69\%; our regression-guided router achieves CER of 3.26\% and WER of 11.98\% while correcting only 40.2\% of segments, saving 64.9\% of LLM tokens. Finally, we show that our regression-guided LLM router closely trails the decisions of an oracle that knows in advance which segments benefit from correction.
+\end{abstract}
+
+
+
+\begin{CCSXML}
+<ccs2012>
+ <concept>
+  <concept_id>10010405.10010497.10010504.10010505</concept_id>
+  <concept_desc>Applied computing~Document analysis</concept_desc>
+  <concept_significance>500</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>10010147.10010178.10010179.10010182</concept_id>
+  <concept_desc>Computing methodologies~Natural language generation</concept_desc>
+  <concept_significance>300</concept_significance>
+ </concept>
+</ccs2012>
+\end{CCSXML}
+
+%\ccsdesc[500]{Applied computing~Document analysis}
+%\ccsdesc[300]{Computing methodologies~Natural language generation}
+
+\keywords{OCR Correction, Large Language Models, Historical Newspapers, Cost-Effectiveness, Document Analysis, Selective Routing}
+
+
+
+\maketitle
+
+\section{Introduction}
+Historical newspapers are valuable sources for historians, social scientists, and cultural heritage researchers. However, many digitized archives remain difficult to use because OCR systems often introduce transcription errors on historical material. Old typefaces, damaged paper, ink bleed-through, irregular spelling, and complex layouts all contribute to high word-error-rates (WER).
+
+Large language models (LLMs) can correct many OCR errors after transcription using textual context. However, using an LLM for refining every OCR output can be costly at archive scale and may be unnecessary when the OCR text is already accurate. In some cases, correction can even introduce new errors by altering historically valid spelling or typography.
+
+This paper addresses the problem of reducing the cost of LLM-based OCR post-correction while compromising to the least extent the  transcription quality. We study whether information available at OCR time, especially character-level confidence scores, can guide the selection of text segments that should be submitted to an LLM for correction. The proposed approach is evaluated on historical newspaper material from the Canton of Vaud, Switzerland, comprising nine publications issued between 1733 and 1945. Through this evaluation, we make two key \textbf{contributions}:
+\begin{itemize}
+    \item First,  
+     we propose a
+    regression-guided routing model that can predicts the expected correction gain of each segment, and decides whether a subsequent LLM correction can help or hurt, accordingly routing the text segments.
+    \item Second, using real historical documents, we show that this methodology closely trails the decisions of an optimal oracle,
+    which knows a-priori which OCR segments will benefit from a subsequent LLM correction.
+\end{itemize}
+
+
+\section{Related Work}
+Post-OCR correction is gradually moving from rule-based and statistical methods toward context-aware deep learning approaches and, more recently, LLMs. Early approaches relied on the noisy-channel model \cite{kissos_ocr_2016}, often using isolated-word correction and feature-based classification. However, these methods frequently struggle with real-word errors (incorrectly recognized words that nevertheless exist in a standard dictionary) which can account for up to 59.0\% of all OCR inaccuracies, according to recent studies \cite{10.1007/978-3-031-70442-0_13}.
+
+\medskip\noindent\textbf{Confidence-Aware Detection and Hybrid Models.}
+A growing line of work uses the confidence scores produced internally by OCR engines as a signal for locating likely errors. Most relevant to us, Hemmer et al. \cite{10.1007/978-3-031-70442-0_13} propose ConfBERT, an OCR error-detection model that fuses these scores with contextual language representations. Each token's OCR confidence is injected into its BERT embedding through a learnable mixing parameter, letting the model weigh textual context against the engine's own certainty when predicting whether a token is erroneous. In contrast, we learn a cost-aware, segment-level routing decision and combine confidence with surface, metadata, historical-lexicon, and corpus-trained contextual features rather than using confidence alone. As the most directly comparable confidence-aware method, we re-implement ConfBERT and evaluate it as a baseline on our corpus in our experiments.
+
+\medskip\noindent\textbf{Language Models.}
+Lately, LLMs are being increasingly used across various stages of the OCR process, though not without challenges. Sohail et al. \cite{sohail2024decipheringunderservedbenchmarkingllm} benchmarked multimodal models like GPT-4o for low-resource scripts, noting that while LLMs offer context-aware alternatives to conventional OCR, their performance remains sensitive to visual distortions and script complexity in zero-shot settings. Comprehensive benchmarks such as CC-OCR \cite{yang2024ccocrcomprehensivechallengingocr} further emphasize the challenges of using LMMs for complex literacy tasks. Shi and Chen \cite{10.1117/12.3068186} proposed an LLM-driven correction mechanism (using GLM-4-Flash) that specifically triggers correction for segments with confidence scores below 0.950, achieving significant accuracy improvements. As LLM usage scales, cost-aware routing frameworks like RouteLLM \cite{Ong2024RouteLLMLT} have demonstrated the efficacy of learning to route queries between strong and weak models to minimize cost while preserving quality. More recently, bandit-based routing frameworks such as PILOT~\cite{panda2025pilot}, BaRP~\cite{wang2025barp}, and ParetoBandit~\cite{tabernermiller2026paretobandit} have been proposed to optimize multi-model selection, thuschoosing which LLM to invoke. 
+In this context, our work addresses the complementary binary routing problem of whether to invoke LLM correction at all, leveraging lightweight domain-specific features rather than learned embeddings.
+
+\medskip\noindent\textbf{Historical Archives and Digital Humanities.}
+Historical document digitization presents unique challenges that standard OCR pipelines often fail to address. Backer and Hyman \cite{backer-hyman-2025-bootstrapping} point out that common metrics like WER and CER can understate how useful a system is for historical research, and they call for "discipline-driven evaluations" that match the needs of humanities scholars. A related problem is the \emph{modernization trap} \cite{hammarstrom2025investigation}, where a cleaning step rewrites old spellings into their modern form. For example, the OCR may correctly read the historical French word \textit{seroit}, but the cleaning step then changes it to the modern \textit{serait} (\textit{seroit} $\rightarrow$ \textit{serait}). This kind of ``correction" loses the original spelling and weakens the fidelity of the source. 
+
+Our approach, by combining domain-specific prompts with selective, confidence-based triggers, aims to balance the benefits of LLMs against the cost and fidelity requirements of large-scale historical archives.
+
+
+
+
+\section{Methodology}
+
+We frame OCR post-correction as a \emph{selective routing} problem: rather than
+sending every transcription to an LLM, we decide \emph{per segment} whether
+correction is likely to improve transcription quality, using only signals available before any correction is run (see Fig \ref{fig:methodology}). This section formalizes that decision and its quality-cost trade-off. We use the terms \emph{document} and \emph{segment} interchangeably for a single unit of text
+that is routed as a whole.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/overview.png}
+\caption{Overview of our learning-driven, cost-aware correction methodology.}
+\label{fig:methodology}
+\end{figure}
+
+\medskip\noindent\textbf{Setup: correction utility.}
+Let $\mathcal{D} = \{d_1, \dots, d_n\}$ be a corpus of text segments. Each segment $d_i$ has a raw OCR transcription $d_i^{\text{raw}}$. During evaluation, we also obtain an LLM-corrected version $d_i^{\text{corr}}$, which allows us to measure how much the correction improves transcription quality. We score quality using the Word Error Rate $W(\cdot)$ against the ground truth. The routing problem is therefore to identify, before running the LLM, which segments are likely to benefit from correction. We formalize this decision through two quantities measured per segment after evaluation: the realized correction gain and the number of tokens that would need to be processed.
+
+\begin{itemize}
+    \item the \textbf{benefit} of correction, i.e.\ the reduction in error it
+    yields,
+    \begin{equation}
+        \Delta_i \;=\; W\!\left(d_i^{\text{raw}}\right) - W\!\left(d_i^{\text{corr}}\right);
+    \end{equation}
+    \item the \textbf{cost} of correction, $C(d_i) = |d_i|$, the segment length
+    in tokens, which is what LLM pricing scales with.
+\end{itemize}
+A positive $\Delta_i$ means correction helps; a negative value means it
+hurts; for instance by normalizing historically valid spelling. The difficulty
+is that $\Delta_i$ depends on $d_i^{\text{corr}}$ and so is unknown at the moment
+we must decide whether to correct.
+
+\medskip\noindent\textbf{Predicting correction utility.}
+We therefore estimate the benefit from the raw text alone. A feature map
+\[
+    \phi: \mathcal{D} \to \Phi \subseteq \mathbb{R}^{54}
+\]
+encodes each segment as a feature vector $\phi(d_i)$ in the feature space
+$\Phi$; these are the 54 surface- and metadata-level features derived from the text segment. A model $\mathcal{M}_\theta$ with learnable parameters
+$\theta$ maps features to a predicted \emph{correction utility}
+$\hat{u}_i = \mathcal{M}_\theta(\phi(d_i))$ can be instantiated in either of two forms:
+\begin{itemize}
+    \item \textbf{Regression}, $\mathcal{M}_\theta: \Phi \to \mathbb{R}$,
+    predicting the expected error reduction directly,
+    $\hat{u}_i = \hat{\Delta}_i \approx \mathbb{E}[\Delta_i]$;
+    \item \textbf{Classification}, $\mathcal{M}_\theta: \Phi \to [0,1]$,
+    predicting the probability that correction is net-positive,
+    $\hat{u}_i = P\!\left(\Delta_i > 0 \mid \phi(d_i)\right)$.
+\end{itemize}
+In both cases $\theta$ is fitted on segments with known $\Delta_i$, and a larger
+$\hat{u}_i$ marks a stronger candidate for correction. Our implementation and experiments adopt the regression approach.
+
+\medskip\noindent\textbf{Cost-aware priority score.}
+Ranking by predicted benefit alone would over-spend on long segments. We instead
+rank by benefit \emph{per unit cost}:
+\begin{equation}
+    \hat{s}_i \;=\; \frac{\mathcal{M}_\theta(\phi(d_i))}{C(d_i)} \;=\; \frac{\hat{u}_i}{|d_i|}.
+\end{equation}
+The intuition is that under a fixed token budget the relevant question is not
+``will this segment improve?'' but ``how much improvement do we get per token
+spent?'' For the regression model, $\hat{s}_i$ reads directly as expected WER
+reduction per token; for the classification model it acts as a cost-discounted
+likelihood of benefit. Either way, prioritizing high-$\hat{s}_i$ segments favors
+corrections that are both likely to help and cheap, extracting the most quality
+from a given budget.
+
+\medskip\noindent\textbf{Routing policy and frontier.}
+Sorting segments by priority score yields a permutation $\pi$ of
+$\{1,\dots,n\}$ with
+\begin{equation}
+    \hat{s}_{\pi(1)} \geq \hat{s}_{\pi(2)} \geq \dots \geq \hat{s}_{\pi(n)}.
+\end{equation}
+For a budget of $k$ corrections we route the segments in
+$R = \{\pi(1),\dots,\pi(k)\}$ to the LLM and keep the rest as raw OCR---
+equivalently, we correct every segment whose score exceeds a cutoff. Routing
+replaces the raw text of each segment in $R$ with its correction, so the
+residual WER (the unweighted mean of per-segment errors) is
+\begin{equation}
+\begin{aligned}
+    \widetilde{W}(k)
+    &= \frac{1}{n}\!\left( \sum_{i \notin R} W\!\big(d_i^{\text{raw}}\big)
+       + \sum_{i \in R} W\!\big(d_i^{\text{corr}}\big) \right) \\[2pt]
+    &= \frac{1}{n}\!\left( \sum_{i=1}^{n} W\!\big(d_i^{\text{raw}}\big)
+       - \sum_{i \in R} \Delta_i \right)
+     \;=\; W_0 - \frac{G(k)}{n},
+\end{aligned}
+\end{equation}
+where $W_0 = \tfrac{1}{n}\sum_{i} W\!\big(d_i^{\text{raw}}\big)$ is the
+uncorrected baseline WER and $G(k) = \sum_{i \in R}\Delta_i$ is the cumulative
+gain. Because $W_0$ and $n$ are constants, residual WER is a strictly decreasing
+affine function of the gain, so maximizing $G(k)$ is \emph{exactly} equivalent to
+minimizing $\widetilde{W}(k)$. Sweeping $k$ from $0$ to $n$ traces a continuous
+\emph{routing frontier} of residual WER against token budget
+(Figure~\ref{fig:routing_frontier}), along which any operating point can be
+selected.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{results/figures/routing_frontier/lassocv/routing_frontier_0pp.png}
+\caption{Routing frontier comparing four OCR-correction strategies: LLM Oracle, Spell-check baseline, ConfBERT~\cite{10.1007/978-3-031-70442-0_13}, and our regression-guided router. AUC is annotated per curve. The secondary x-axis (top) reports cumulative tokens submitted to the LLM (Gemini~3 Flash).}
+\label{fig:routing_frontier}
+\end{figure*}
+
+\section{Experimental Results}
+\label{sec:experiments}
+
+We structure the evaluation around three research questions:
+\begin{itemize}
+    \item \textbf{RQ1:} How closely does our selective routing match the oracle,
+    and does it improve on confidence-based routing?
+    \item \textbf{RQ2:} How well does the regression-estimated improvement
+    $\hat{\Delta}_i$ correlate with the actual improvement $\Delta_i$ measured
+    after LLM correction?
+    \item \textbf{RQ3:} What is the actual LLM cost when only the segments
+    predicted to benefit are corrected, and how does it vary across models?
+\end{itemize}
+All code, data, prompts, and per-model results are released in an anonymized
+repository.\footnote{\url{https://anonymous.4open.science/r/ocr-routing-XXXX}}
+
+
+\medskip\noindent\textbf{Corpus and annotation.}
+We use the corpus summarized in Table~\ref{tab:corpus}: 609 text segments from
+nine Swiss historical newspapers (1733--1945) in the digital archives of the
+Canton of Vaud. Three French-speaking annotators produced fidelity-oriented
+transcriptions that preserve historical spelling and source anomalies. We report
+WER and CER, computed after a topological normalization step that unifies
+historical character variants and spacing.
+
+
+
+\begin{table}[h]
+\centering
+\caption{Corpus composition by newspaper publication.}
+\label{tab:corpus}
+\resizebox{0.8\columnwidth}{!}{%
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Newspaper} & \textbf{Dates} & \textbf{Issues} & \textbf{Pages} & \textbf{Text} \\
+ & & & & \textbf{segments} \\ \midrule
+La Revue                       & 1875--1945 & 4 & 5  & 139 \\
+Feuille d'Avis & 1762--1841 & 4 & 13 & 131 \\
+Tribune de Lausanne                        & 1912       & 3 & 4  & 105 \\
+Nouvelliste Vaudois       & 1822--1840 & 3 & 7  & 90  \\
+Petite Revue                       & 1943       & 1 & 1  & 46  \\
+Lausanne Artistique                        & 1926       & 1 & 1  & 32  \\
+Almanach                       & 1832       & 1 & 8  & 31  \\
+Estafette                      & 1862       & 1 & 1  & 19  \\
+Mercure Suisse                        & 1733--1738 & 2 & 5  & 16  \\ \midrule
+\textbf{Total}            & 1733--1945 & 20 & 45 & 609 \\ \bottomrule
+\end{tabular}
+}
+\end{table}
+
+\noindent\textbf{OCR engines and LLMs.}
+We run three OCR engines (PaddleOCR~v3, EasyOCR, Tesseract~v5) and six correction
+LLMs spanning closed-source (Gemini~3 Flash, GPT-4o, Claude~3.5 Haiku) and
+open-source (Qwen~2.5-72B, Llama~3.3-70B, Mistral~Small) models, each with its
+best prompt out of ten templates of increasing complexity. For space, the main
+text reports Tesseract OCR with Gemini~3 Flash correction; the remaining engines,
+models, and the full prompt ablation are in the repository.
+
+\medskip\noindent\textbf{Baselines and protocol.}
+We compare our \textbf{regression-guided routing}, which ranks segments by
+predicted improvement per token $\hat{s}_i = \hat{\Delta}_i / |d_i|$ and corrects
+the top-$k$, against Full-Text LLM (correct all), Conditional-Full (correct
+segments below a confidence threshold), ConfBERT~\cite{10.1007/978-3-031-70442-0_13}
+(BERT with token-level confidence injection), orthographic spell-checking (using the dictionary-based \texttt{pyspellchecker}), and an
+Oracle that routes by the true $\Delta_i$. The regression uses 54 features
+computed from raw OCR alone (surface statistics, orthographic-integrity scores,
+OCR confidence, and metadata; full list in the repository), evaluated with
+leave-one-out cross-validation (inner 10-fold CV for regularisation). We summarize each strategy by the area under its
+frontier (AUC) of residual WER (or CER) against routing budget; lower is better.
+
+
+\subsection{RQ1: Routing Quality vs.\ the Oracle}
+Figure~\ref{fig:routing_frontier} shows the WER and CER routing frontiers. Across
+the entire budget our router (red) lies between the Oracle (dotted) and ConfBERT
+(orange) and stays much closer to the Oracle: its frontier AUC is 12.9 for WER
+(Oracle: 10.4) and 3.60 for CER (Oracle: 3.00), both well below ConfBERT's 15.1
+and 4.10 respectively. Table~\ref{tab:routing_comparison} summarizes the
+operating-point comparison at a threshold of $\hat{\Delta}_i \geq 0.03$: our router
+achieves CER of 3.26\% and WER of 11.98\% while correcting only 240 of 597
+segments (40.2\%), saving 64.9\% of tokens. ConfBERT, by contrast, corrects
+349 segments (58.5\%) but sacrifices quality (CER rises to 3.60\%).
+Spell-checking and the raw baseline stay flat and high, with spell-checking
+slightly worse than no correction on CER.
+
+\begin{table}[h]
+\centering
+\caption{Routing comparison on Tesseract OCR with Gemini~3 Flash correction. CER and WER report the corpus-level error rate after applying each method.}
+\label{tab:routing_comparison}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Method} & \textbf{CER} & \textbf{WER} & \textbf{Docs} & \textbf{Token} & \textbf{CER} \\
+ & & & \textbf{Corrected} & \textbf{Savings} & \textbf{Improv.} \\ \midrule
+Baseline OCR (no correction) & 0.0632 & 0.2335 & 0/597 & 100\% & --- \\
+Spell-check & 0.0675 & 0.2284 & N/A & N/A & $-$6.80\% \\
+ConfBERT ($p\!\geq\!0.5$) & 0.0360 & 0.1330 & 349/597 & 17.6\% & +43.0\% \\
+Full LLM (all segments) & 0.0298 & 0.0969 & 597/597 & 0\% & +52.9\% \\
+\textbf{Our Approach} ($\hat{\Delta}\!\geq\!0.03$) & \textbf{0.0326} & \textbf{0.1198} & 240/597 & \textbf{64.9\%} & +48.4\% \\ \bottomrule
+\end{tabular}
+}
+\end{table}
+
+To illustrate how quality degrades gracefully with budget,
+Table~\ref{tab:budget_operating_points} reports budget-based operating points read from
+the routing frontier (correcting the top~20\%, 40\%, 60\%, 80\%, and 100\%) alongside our optimal
+$\hat{\Delta}_i\!\geq\!0.03$ threshold.
+Correcting 60\% of segments recovers 96.8\% of the full-correction CER
+improvement while still saving 41.0\% of tokens; the 40\% budget captures
+91.4\% of the improvement at 65.2\% token savings.
+
+\begin{table}[h]
+\centering
+\caption{Budget-based operating points for our routing on Tesseract OCR with Gemini~3 Flash.}
+\label{tab:budget_operating_points}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Correction} & \textbf{CER} & \textbf{WER} & \textbf{Docs} & \textbf{Token} & \textbf{CER} \\
+\textbf{Budget} & & & \textbf{Corrected} & \textbf{Savings} & \textbf{Improv.} \\ \midrule
+Top 20\%                                               & 0.0410 & 0.1554 & 119/597 & 88.0\% & +35.2\% \\
+Top 40\%                                               & 0.0327 & 0.1198 & 239/597 & 65.2\% & +48.4\% \\
+\textbf{Ours} ($\hat{\Delta}\!\geq\!0.03$)           & \textbf{0.0326} & \textbf{0.1198} & 240/597 & \textbf{64.9\%} & +48.4\% \\
+Top 60\%                                              & 0.0308 & 0.1069 & 358/597 & 41.0\% & +51.2\% \\
+Top 80\%                                               & 0.0303 & 0.1000 & 478/597 & 11.8\% & +52.1\% \\ \hline
+\textit{Full correction (100\%)}                 & 0.0298 & 0.0969 & 597/597 & 0\% & +52.9\% \\ \bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection{RQ2: Predicting CER Improvement}
+RQ1 depends on ranking segments by predicted improvement, so we next ask how well
+$\Delta_i$ can be recovered from raw OCR text alone, with no ground truth.
+Figure~\ref{fig:wer_prediction} plots predicted against actual $\Delta_i$ on
+held-out segments (leave-one-out with 10-fold inner CV for
+regularisation); the regression attains a Spearman rank correlation $\rho = 0.580$ ($p < 10^{-53}$). While modest in absolute terms, the strong rank correlation confirms that the model
+correctly orders segments by expected benefit and
+the routing frontier in RQ1 confirms that our predictions rank segments nearly
+as well as the Oracle.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{paper/figures/predicted_vs_actual_cer_loo_cv10.pdf}
+\caption{Predicted versus actual CER improvement $\Delta_i$ on held-out segments (LOO)}
+\label{fig:wer_prediction}
+\end{figure}
+\medskip\noindent
+
+% \textbf{Features (54-d).} We engineer four groups of features computable directly from raw OCR output:
+% \begin{itemize}
+%     \item \textbf{Surface features (40):} character statistics (text length, word count, average word length, character class ratios); per-letter frequency ($a$--$z$); run statistics; and three \textbf{orthographic integrity} features from a French spell-checker: \texttt{spell\_}\allowbreak\texttt{length\_}\allowbreak\texttt{ratio}, \texttt{ortho\_}\allowbreak\texttt{integrity\_}\allowbreak\texttt{word} (fraction of spell-corrected-unchanged words), and \texttt{ortho\_}\allowbreak\texttt{integrity\_}\allowbreak\texttt{char} (character-level similarity to spell-corrected version).
+%     \item \textbf{Metadata features (13):} line count, average characters per line, publication year, 9-class newspaper one-hot encoding, and \textbf{average OCR confidence score} (per-document mean of per-token confidence values).
+% \end{itemize}
+
+
+\subsection{RQ3: LLM Cost}
+Table~\ref{tab:llm_cost} reports the cost of full correction against our
+regression-guided routing ($\hat{\Delta}_i \geq 0.03$), scaled to one million
+segments. Because our router is trained once and applied identically to every
+model, it routes the same set of segments regardless of the downstream LLM.
+However, because routed segments tend to be shorter, actual token savings
+reach 64.9\%. The Gemini Flash family sits on the quality/cost
+frontier, reaching the lowest CER at the lowest cost, whereas older premium models
+such as GPT-4o cost more without an appreciable improvement in quality on this task, and the open-source models occupy an intermediate band.
+Together with RQ1 and RQ2, this shows that a cheap correction model driven by a
+feature-based router recovers most of the quality of full correction at a
+fraction of the cost.
+
+\begin{table}[h]
+\centering
+\caption{LLM cost comparison: full correction vs.\ our routing ($\hat{\Delta}_i\!\geq\!0.03$\,) on Tesseract OCR. Costs scaled to 10\,M segments.}
+\label{tab:llm_cost}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{LLM Model} & \textbf{CER} & \textbf{WER} & \textbf{Full Cost} & \textbf{Routed Cost} \\ \midrule
+Gemini 3 Flash         & 0.0326 & 0.1198 & \$2,370 & \$830  \\
+Gemini 3.1 Flash Lite  & 0.0444 & 0.1374 & \$1,180 & \$410  \\
+GPT-4o                 & 0.0436 & 0.1445 & \$8,940 & \$3,140 \\
+Qwen 2.5-72B           & 0.0564 & 0.1625 & ---     & ---    \\
+Mistral 3.1-24B        & 0.9893 & 0.8720 & ---     & ---    \\ \midrule
+\textit{No correction} & 0.0632 & 0.2335 & ---     & ---    \\ \bottomrule
+\end{tabular}
+}
+\end{table}
+\vspace{-0.5cm}
+\section{Conclusion}
+In this work, we addressed the cost-quality trade-off of using Large Language Models (LLMs) for OCR post-correction in digital historical archives. Our approach shows that selective correction can achieve substantial cost savings while maintaining high transcription quality. Our router corrected only 40.2\% of segments, reducing CER from 6.32\% to 3.26\% (retaining over 91.4\% of full correction's quality improvement) while saving 64.9\% of LLM token cost. Crucially, our regression-guided router closely trails the performance of an empirical oracle.
+
+
+\clearpage
+
+\section*{GenAI Usage Disclosure}
+During the preparation of this work, the authors used Google Gemini and OpenAI GPT-4o as code assistants. An AI assistant was used in formatting and editing the final manuscript. Research ideas are the authors' own. The authors take full responsibility for this work.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{main}
+
+
+
+\end{document}

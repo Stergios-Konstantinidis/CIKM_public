@@ -1,0 +1,56 @@
+[
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "Full_Orthographic",
+    "llm_model": "pyspellchecker",
+    "average_wer": 0.29002357890413055,
+    "average_cer": 0.09067478828200565,
+    "cost": 0.0,
+    "num_items": 597
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "SelectiveNoContext_Orthographic_thr80",
+    "llm_model": "pyspellchecker",
+    "average_wer": 0.22843686269457844,
+    "average_cer": 0.06754364715620156,
+    "cost": 0.0,
+    "num_items": 597
+  },
+  {
+    "ocr_engine": "tesseract",
+    "strategy": "SelectiveNoContext_Orthographic_thr90",
+    "llm_model": "pyspellchecker",
+    "average_wer": 0.24350426337497305,
+    "average_cer": 0.07503816291182178,
+    "cost": 0.0,
+    "num_items": 597
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "Full_Orthographic",
+    "llm_model": "pyspellchecker",
+    "average_wer": 0.626616014120771,
+    "average_cer": 0.20428477135922596,
+    "cost": 0.0,
+    "num_items": 608
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "SelectiveNoContext_Orthographic_thr80",
+    "llm_model": "pyspellchecker",
+    "average_wer": 0.5964524953261195,
+    "average_cer": 0.18645111211580048,
+    "cost": 0.0,
+    "num_items": 608
+  },
+  {
+    "ocr_engine": "easyocr",
+    "strategy": "SelectiveNoContext_Orthographic_thr90",
+    "llm_model": "pyspellchecker",
+    "average_wer": 0.6003018617484854,
+    "average_cer": 0.19221925456387945,
+    "cost": 0.0,
+    "num_items": 608
+  }
+]
