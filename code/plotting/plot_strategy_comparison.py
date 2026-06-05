@@ -131,7 +131,7 @@ def plot_comparison(data):
     
     out = RES / "figures/correction_strategies_comparison.png"
     plt.savefig(out, dpi=160, bbox_inches="tight")
-    plt.savefig(FIGS / "figures/correction_strategies_comparison.png", dpi=160, bbox_inches="tight")
+    plt.savefig(FIGS / "correction_strategies_comparison.png", dpi=160, bbox_inches="tight")
     plt.close()
     print(f"  ✓ Saved to {out}")
 
