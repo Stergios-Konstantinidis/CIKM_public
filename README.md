@@ -289,4 +289,43 @@ To understand how different routing models prioritize features, we extract the t
 | 10 | `freq_j` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
 
 ---
+
+## 🛠 Core Feature Set (54 Features & Definitions)
+
+Our selective routing framework uses a 54-dimensional feature set extracted exclusively from the raw OCR text and document metadata (requiring no ground truth). The features are categorized into two groups:
+
+### 1. Text-Surface Features (41 Features)
+These features analyze the character-level and word-level properties of the raw OCR text, as well as spelling integrity signals derived from a dictionary.
+
+| Feature Name | Type | Dimension | Description |
+| :--- | :---: | :---: | :--- |
+| `text_length` | Numeric | 1 | Total number of characters in the raw OCR text. |
+| `word_count` | Numeric | 1 | Total number of whitespace-separated words in the raw OCR text. |
+| `avg_word_length` | Numeric | 1 | Average character length of the words. |
+| `unique_char_ratio` | Ratio | 1 | Ratio of unique characters to total characters (`#unique_chars / #total_chars`). |
+| `digit_ratio` | Ratio | 1 | Fraction of characters in the text that are digits. |
+| `punct_ratio` | Ratio | 1 | Fraction of characters in the text that are punctuation. |
+| `upper_ratio` | Ratio | 1 | Fraction of alphabetic characters that are uppercase. |
+| `newline_density` | Ratio | 1 | Fraction of characters that are newlines (`#newlines / #total_chars`). |
+| `space_ratio` | Ratio | 1 | Fraction of characters that are spaces (`#spaces / #total_chars`). |
+| `freq_a` to `freq_z` | Ratio | 26 | Occurrences of each letter from `a` to `z` divided by total alphabetic characters. |
+| `max_run_length` | Numeric | 1 | Maximum length of consecutive identical character runs in the raw OCR. |
+| `avg_run_length` | Numeric | 1 | Average length of consecutive identical character runs. |
+| `spell_length_ratio` | Ratio | 1 | Ratio of raw OCR character length to spell-corrected OCR character length (`len(ocr) / len(spell_corrected_ocr)`). |
+| `ortho_integrity_word`| Ratio | 1 | Fraction of words left unchanged by the French spell-checker (`1.0 - #changed_words / #total_words`). |
+| `ortho_integrity_char`| Ratio | 1 | Character-level edit similarity (SequenceMatcher ratio) between raw and spell-corrected text. |
+| `dict_hit_rate` | Ratio | 1 | Fraction of alphabetic words successfully found in the spell-checker's French dictionary. |
+
+### 2. Metadata Features (13 Features)
+These features capture layout-density proxies, temporal parameters, and the engine's internal character certainty.
+
+| Feature Name | Type | Dimension | Description |
+| :--- | :---: | :---: | :--- |
+| `num_lines` | Numeric | 1 | Total number of newline-separated lines in the raw OCR. |
+| `avg_chars_per_line` | Numeric | 1 | Layout character density proxy (`total_chars / num_lines`). |
+| `publication_year` | Numeric | 1 | The year of publication extracted from the document date metadata. |
+| `newspaper_*` | One-Hot | 9 | One-hot encoding of the 9 Swiss historical newspapers in the corpus (ACI, Feuille d'Avis de Lausanne, LP, ME, Nouvelliste Vaudois, RL, RLP, TL, esta). |
+| `avg_confidence` | Numeric | 1 | Per-document average OCR confidence score (mean of per-token confidence scores). Defaults to 1.0 when confidence data is unavailable. |
+
+---
 *This project is part of the research for CIKM 2026.*

@@ -299,6 +299,39 @@ address = {n.a.},
 	urldate = {2026-04-14},
 }
 
+@inproceedings{piryani2025evaluating,
+title = {Evaluating Robustness of LLMs in Question Answering on Multilingual Noisy OCR Data},
+author = {Piryani, Bhawna and Mozafari, Jamshid and Abdallah, Abdelrahman and Doucet, Antoine and Jatowt, Adam},
+year = {2025},
+isbn = {9798400720406},
+publisher = {Association for Computing Machinery},
+url = {https://doi.org/10.1145/3746252.3761295},
+doi = {10.1145/3746252.3761295},
+abstract = {Optical Character Recognition (OCR) plays a crucial role in digitizing historical and multilingual documents, yet OCR errors - imperfect extraction of text, including character insertion, deletion, and substitution can significantly impact downstream tasks like question-answering (QA). In this work, we conduct a comprehensive analysis of how OCR-induced noise affects the performance of Multilingual QA Systems. To support this analysis, we introduce a multilingual QA dataset MultiOCR-QA, comprising 50K question-answer pairs across three languages, English, French, and German. The dataset is curated from OCR-ed historical documents, which include different levels and types of OCR noise. We then evaluate how different state-of-the-art Large Language Models (LLMs) perform under different error conditions, focusing on three major OCR error types. Our findings show that QA systems are highly prone to OCR-induced errors and perform poorly on noisy OCR text. By comparing model performance on clean versus noisy texts, we provide insights into the limitations of current approaches and emphasize the need for more noise-resilient QA systems in historical digitization contexts.},
+booktitle = {Proceedings of the 34th ACM International Conference on Information and Knowledge Management},
+pages = {2366–2376},
+numpages = {11},
+keywords = {large language models, multilingual qa, ocr text},
+series = {CIKM '25}
+}
+
+@inproceedings{li2025costaware,
+title = {A Cost-Aware Approach for Collaborating Large Language Models and Small Language Models},
+author = {Li, Zheng and Zhang, Xuyun and Lu, Sheng and Deng, Hua and Tian, Hao and Dou, Wanchun},
+year = {2025},
+isbn = {9798400720406},
+publisher = {Association for Computing Machinery},
+url = {https://doi.org/10.1145/3746252.3760990},
+doi = {10.1145/3746252.3760990},
+abstract = {The emerging reasoning ability of large language models (LLMs) and accompanying commercial applications offer a promising path for service providers to deploy intelligent agents on their own products through API calls. However, the black-box nature of LLMs has driven providers to try prompt tuning to improve reasoning quality for competitiveness, while the generated reasoning logic results in additional service costs. Although some works have proposed collaborating LLMs and Small Language Models (SLMs) to reduce the frequency of LLM calls, most overlook the actual number of tokens interacting with the LLMs, which results in a potentially high cost still. Furthermore, directly compressing the prompt to reduce tokens often leads to a significant accuracy loss. To address the above challenges, we propose a cost-aware approach for collaborating LLMs and SLMs, named Coco. In our method, a confidence-based task assignment method is designed which leverages the result confidence of SLMs to assess task complexity and determine whether LLM involvement is necessary. For complex tasks, the SLM adapts the input by compressing unnecessary information according to confidence. Considering the potential loss of accuracy, prompt tuning-based reasoning optimization methods are introduced to guide the LLM in generating both the reasoning logic sketch and the final result. Finally, logic alignment is applied to fuse sketches from both models, ensuring the rationality of the reasoning logic. Experimental results on three open-source datasets demonstrate that our approach effectively reduces the cost of API calls to LLMs while ensuring the reasoning accuracy and the reasonableness of generated logic.},
+booktitle = {Proceedings of the 34th ACM International Conference on Information and Knowledge Management},
+pages = {1748–1757},
+numpages = {10},
+keywords = {cost-aware collaboration, large and small language models, prompt tuning, reasoning optimization, task assignment},
+location = {Seoul, Republic of Korea},
+series = {CIKM '25}
+}
+
 @misc{yang2024ccocrcomprehensivechallengingocr,
       title={CC-OCR: A Comprehensive and Challenging OCR Benchmark for Evaluating Large Multimodal Models in Literacy}, 
       author={Zhibo Yang and Jun Tang and Zhaohai Li and Pengfei Wang and Jianqiang Wan and Humen Zhong and Xuejing Liu and Mingkun Yang and Peng Wang and Shuai Bai and LianWen Jin and Junyang Lin},

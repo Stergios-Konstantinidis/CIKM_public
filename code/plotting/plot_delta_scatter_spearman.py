@@ -87,7 +87,7 @@ def main():
             colors.append("#95a5a6")    # grey — near zero or correctly identified as ~0
 
     # ── Plot ──
-    fig, ax = plt.subplots(figsize=(8, 3.5))
+    fig, ax = plt.subplots(figsize=(4.5, 4.5))
     fig.patch.set_facecolor("white")
     ax.set_facecolor("#fafafa")
 
@@ -95,12 +95,14 @@ def main():
                edgecolors="none", zorder=3)
 
     # Perfect prediction line (y=x)
-    lims = [
-        min(delta_cer.min(), pred_dc.min()) - 0.05,
-        max(delta_cer.max(), pred_dc.max()) + 0.05,
-    ]
+    lims = [-0.5, 0.5]
     ax.plot(lims, lims, "--", color="#555555", linewidth=1.2,
             alpha=0.7, zorder=2, label="Perfect prediction")
+
+    # Set same limits for both axes and make the aspect ratio square
+    ax.set_xlim(lims)
+    ax.set_ylim(lims)
+    ax.set_aspect("equal", adjustable="box")
 
     # Quadrant lines at 0
     ax.axhline(0, color="#f39c12", linestyle=":", linewidth=0.8, alpha=0.5)
@@ -134,6 +136,10 @@ def main():
     plt.close()
     print(f"  ✓ {out_pdf}")
     print(f"  ✓ {out_png}")
+    from PIL import Image
+    print("SAVED IMAGE DIMENSIONS:", Image.open(out_png).size)
+    import os
+    os._exit(0)
 
 
 if __name__ == "__main__":
