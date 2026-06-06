@@ -18,7 +18,6 @@
  %ACM
  @String{CACM = "Communications of the {ACM}" }
  @String{CACM = "Commun. {ACM}" }
- @String{CompServ = "Comput. Surveys" }
  @String{JACM = "J. ACM" }
  @String{ACMMathSoft = "{ACM} Transactions on Mathematical Software" }
  @String{ACMMathSoft = "{ACM} Trans. Math. Software" }
@@ -198,37 +197,28 @@
 %Entries
 
 @inproceedings{10.1007/978-3-031-70442-0_13,
-author = {Hemmer et al.},
+author = {Hemmer, Arthur and Coustaty, Micka\"{e}l and Bartolo, Nicola and Ogier, Jean-Marc},
 title = {Confidence-Aware Document OCR Error Detection},
 year = {2024},
 isbn = {978-3-031-70441-3},
-publisher = {Springer-Verlag},
-address = {Berlin, Heidelberg},
 url = {https://doi.org/10.1007/978-3-031-70442-0_13},
 doi = {10.1007/978-3-031-70442-0_13},
 abstract = {Optical Character Recognition (OCR) continues to face accuracy challenges that impact subsequent applications. To address these errors, we explore the utility of OCR confidence scores for enhancing post-OCR error detection. Our study involves analyzing the correlation between confidence scores and error rates across different OCR systems. We develop ConfBERT, a BERT-based model that incorporates OCR confidence scores into token embeddings and offers an optional pre-training phase for noise adjustment. Our experimental results demonstrate that integrating OCR confidence scores can enhance error detection capabilities. This work underscores the importance of OCR confidence scores in improving detection accuracy and reveals substantial disparities in performance between commercial and open-source OCR technologies.},
-booktitle = {Document Analysis Systems: 16th IAPR International Workshop, DAS 2024, Athens, Greece, August 30–31, 2024, Proceedings},
+booktitle = {Document Analysis Systems: 16th IAPR International Workshop},
 pages = {213–228},
 numpages = {16},
 keywords = {Post-OCR, Error Detection, Confidence},
-location = {Athens, Greece}
 }
 
 @inproceedings{10.1117/12.3068186,
-author = {Zhouzhen et al.},
+author = {Zhouzhen Shi and Yi Chen},
 title = {{Correction of OCR results using large language models}},
-volume = {13690},
-booktitle = {International Conference on Advances in Computer Vision Research and Applications (ACVRA 2025)},
-editor = {Zhonghong Ou and Hui Liu},
-organization = {International Society for Optics and Photonics},
-publisher = {SPIE},
+booktitle = {International Conference on Advances in Computer Vision Research and Applications},
 pages = {136901G},
 abstract = {This paper proposes a large language model (LLM)-based method for correcting OCR results, integrating prompt engineering with recognition models including PP-OCRv4 and GLM-4-Flash. By introducing an LLM-driven error correction mechanism, the accuracy of OCR-recognized texts is significantly improved, particularly in punctuation restoration and character rectification. Experimental results demonstrate that for datasets with GLM correction confidence scores below 0.95, the proposed method achieves an accuracy improvement of approximately 17%. Specifically, the GLM-enhanced framework outperforms standalone PP-OCRv4 by 4.7% and surpasses the Kimi large model by 29.5% in accuracy. These findings validate the high practical applicability of the GLM-based correction strategy in real-world scenarios.},
 keywords = {OCR, large language model, PaddlePaddle, GLM, Kimi, prompt engineering },
 year = {2025},
 doi = {10.1117/12.3068186},
-URL = {https://doi.org/10.1117/12.3068186},
-address = {n.a.},
 },
 
 @misc{sohail2024decipheringunderservedbenchmarkingllm,
@@ -237,7 +227,6 @@ address = {n.a.},
       year={2024},
       eprint={2412.16119},
       archivePrefix={arXiv},
-      primaryClass={cs.LG},
       url={https://arxiv.org/abs/2412.16119}, 
 }
 
@@ -245,20 +234,11 @@ address = {n.a.},
     title = "Bootstrapping {AI}: Interdisciplinary Approaches to Assessing {OCR} Quality in {E}nglish-Language Historical Documents",
     author = "Backer, Samuel  and
       Hyman, Louis",
-    editor = {H{\"a}m{\"a}l{\"a}inen, Mika  and
-      {\"O}hman, Emily  and
-      Bizzoni, Yuri  and
-      Miyagawa, So  and
-      Alnajjar, Khalid},
     booktitle = "Proceedings of the 5th International Conference on Natural Language Processing for Digital Humanities",
     month = may,
     year = "2025",
-    address = "Albuquerque, USA",
-    publisher = "Association for Computational Linguistics",
-    url = "https://aclanthology.org/2025.nlp4dh-1.21/",
     doi = "10.18653/v1/2025.nlp4dh-1.21",
     pages = "251--256",
-    ISBN = "979-8-89176-234-3",
     abstract = "New LLM-based OCR and post-OCR correction methods promise to transform computational historical research, yet their efficacy remains contested. We compare multiple correction approaches, including methods for ``bootstrapping'' fine-tuning with LLM-generated data, and measure their effect on downstream tasks. Our results suggest that standard OCR metrics often underestimate performance gains for historical research, underscoring the need for discipline-driven evaluations that can better reflect the needs of computational humanists."
 }
 
@@ -267,23 +247,16 @@ address = {n.a.},
   title        = {Investigation of {OCR} Model Performance and Post-{OCR} Correction Strategies: A Comparative Analysis},
   school       = {Uppsala University, Faculty of Science and Technology},
   year         = {2025},
-  address      = {Uppsala, Sweden},
   type         = {Master's thesis},
   url          = {https://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-565512},
   note         = {Available at DiVA, id: diva2:1991132}
 }
 
 @inproceedings{kissos_ocr_2016,
-	address = {},
-	title = {{OCR} {Error} {Correction} {Using} {Character} {Correction} and {Feature}-{Based} {Word} {Classification}},
-	isbn = {9781509017928},
-	url = {http://ieeexplore.ieee.org/document/7490117/},
+	title = {OCR Error Correction Using Character Correction and Feature-Based Word Classification},
 	doi = {10.1109/DAS.2016.44},
-	urldate = {2026-04-14},
-	booktitle = {2016 12th {IAPR} {Workshop} on {Document} {Analysis} {Systems} ({DAS})},
-	publisher = {IEEE},
+	booktitle = {12th IAPR Workshop on Document Analysis Systems},
 	author = {Kissos, Ido and Dershowitz, Nachum},
-	month = apr,
 	year = {2016},
 	pages = {198--203},
 }
@@ -303,16 +276,11 @@ address = {n.a.},
 title = {Evaluating Robustness of LLMs in Question Answering on Multilingual Noisy OCR Data},
 author = {Piryani, Bhawna and Mozafari, Jamshid and Abdallah, Abdelrahman and Doucet, Antoine and Jatowt, Adam},
 year = {2025},
-isbn = {9798400720406},
-publisher = {Association for Computing Machinery},
-url = {https://doi.org/10.1145/3746252.3761295},
 doi = {10.1145/3746252.3761295},
 abstract = {Optical Character Recognition (OCR) plays a crucial role in digitizing historical and multilingual documents, yet OCR errors - imperfect extraction of text, including character insertion, deletion, and substitution can significantly impact downstream tasks like question-answering (QA). In this work, we conduct a comprehensive analysis of how OCR-induced noise affects the performance of Multilingual QA Systems. To support this analysis, we introduce a multilingual QA dataset MultiOCR-QA, comprising 50K question-answer pairs across three languages, English, French, and German. The dataset is curated from OCR-ed historical documents, which include different levels and types of OCR noise. We then evaluate how different state-of-the-art Large Language Models (LLMs) perform under different error conditions, focusing on three major OCR error types. Our findings show that QA systems are highly prone to OCR-induced errors and perform poorly on noisy OCR text. By comparing model performance on clean versus noisy texts, we provide insights into the limitations of current approaches and emphasize the need for more noise-resilient QA systems in historical digitization contexts.},
 booktitle = {Proceedings of the 34th ACM International Conference on Information and Knowledge Management},
 pages = {2366–2376},
-numpages = {11},
 keywords = {large language models, multilingual qa, ocr text},
-series = {CIKM '25}
 }
 
 @inproceedings{li2025costaware,
@@ -320,7 +288,6 @@ title = {A Cost-Aware Approach for Collaborating Large Language Models and Small
 author = {Li, Zheng and Zhang, Xuyun and Lu, Sheng and Deng, Hua and Tian, Hao and Dou, Wanchun},
 year = {2025},
 isbn = {9798400720406},
-publisher = {Association for Computing Machinery},
 url = {https://doi.org/10.1145/3746252.3760990},
 doi = {10.1145/3746252.3760990},
 abstract = {The emerging reasoning ability of large language models (LLMs) and accompanying commercial applications offer a promising path for service providers to deploy intelligent agents on their own products through API calls. However, the black-box nature of LLMs has driven providers to try prompt tuning to improve reasoning quality for competitiveness, while the generated reasoning logic results in additional service costs. Although some works have proposed collaborating LLMs and Small Language Models (SLMs) to reduce the frequency of LLM calls, most overlook the actual number of tokens interacting with the LLMs, which results in a potentially high cost still. Furthermore, directly compressing the prompt to reduce tokens often leads to a significant accuracy loss. To address the above challenges, we propose a cost-aware approach for collaborating LLMs and SLMs, named Coco. In our method, a confidence-based task assignment method is designed which leverages the result confidence of SLMs to assess task complexity and determine whether LLM involvement is necessary. For complex tasks, the SLM adapts the input by compressing unnecessary information according to confidence. Considering the potential loss of accuracy, prompt tuning-based reasoning optimization methods are introduced to guide the LLM in generating both the reasoning logic sketch and the final result. Finally, logic alignment is applied to fuse sketches from both models, ensuring the rationality of the reasoning logic. Experimental results on three open-source datasets demonstrate that our approach effectively reduces the cost of API calls to LLMs while ensuring the reasoning accuracy and the reasonableness of generated logic.},
@@ -328,17 +295,87 @@ booktitle = {Proceedings of the 34th ACM International Conference on Information
 pages = {1748–1757},
 numpages = {10},
 keywords = {cost-aware collaboration, large and small language models, prompt tuning, reasoning optimization, task assignment},
-location = {Seoul, Republic of Korea},
-series = {CIKM '25}
 }
 
+@article{holley2009good,
+author = {Holley, Rose},
+year = {2009},
+title = {How Good Can It Get?: Analysing and Improving OCR Accuracy in Large Scale Historic Newspaper Digitisation Programs},
+volume = {15},
+number = {3/4},
+journal = {D-Lib Magazine},
+doi = {10.1045/march2009-holley}
+}
+
+@inproceedings{alex2012digitised,
+author = {Alex, Beatrice and Grover, Claire and Klein, Ewan and Tobin, Richard},
+year = {2012},
+month = {01},
+booktitle = {Proceedings of KONVENS 2012},
+pages = {401-409},
+title = {Digitised Historical Text: Does it have to be mediOCRe?}
+}
+
+@inproceedings{tesseractOCR,
+  title={An Overview of the Tesseract OCR Engine}, 
+  author={Smith, R.},
+  booktitle={Ninth International Conference on Document Analysis and Recognition}, 
+  year={2007},
+  volume={2},
+  number={},
+  pages={629-633},
+  keywords={Optical character recognition software;Search engines;Testing;Open source software;Text recognition;Filters;Prototypes;Independent component analysis;Pipelines;Inspection},
+  doi={10.1109/ICDAR.2007.4376991}}
+
+@misc{cui2025paddleocr,
+  title={PaddleOCR 3.0 Technical Report},
+  author={Cui, Cheng and Sun, Ting and Lin, Manhui and Gao, Tingquan and Zhang, Yubo and Liu, Jiaxuan and Wang, Xueqing and Zhang, Zelun and Zhou, Changda and Liu, Hongen and Zhang, Yue and Lv, Wenyu and Huang, Kui and Zhang, Yichao and Zhang, Jing and Zhang, Jun and Liu, Yi and Yu, Dianhai and Ma, Yanjun},
+  year={2025},
+  eprint={2507.05595},
+  archivePrefix={arXiv},
+  doi={10.48550/arXiv.2507.05595}
+}
+
+@article{nguyen2021survey,
+title = {Survey of Post-OCR Processing Approaches},
+author = {Nguyen, Thi Tuyet Hai and Jatowt, Adam and Coustaty, Mickael and Doucet, Antoine},
+year = {2021},
+volume = {54},
+number = {6},
+numpages = {37},
+articleno = {124},
+doi = {10.1145/3453476},
+abstract = {Optical character recognition (OCR) is one of the most popular techniques used for converting printed documents into machine-readable ones. While OCR engines can do well with modern text, their performance is unfortunately significantly reduced on historical materials. Additionally, many texts have already been processed by various out-of-date digitisation techniques. As a consequence, digitised texts are noisy and need to be post-corrected. This article clarifies the importance of enhancing quality of OCR results by studying their effects on information retrieval and natural language processing applications. We then define the post-OCR processing problem, illustrate its typical pipeline, and review the state-of-the-art post-OCR processing approaches. Evaluation metrics, accessible datasets, language resources, and useful toolkits are also reported. Furthermore, the work identifies the current trend and outlines some research directions of this field.},
+journal = {ACM Computing Surveys},
+keywords = {OCR merging, Post-OCR processing, error model, language model, machine learning, statistical and neural machine translation}
+}
+
+@inproceedings{thomas2024leveraging,
+    title = "Leveraging {LLM}s for Post-{OCR} Correction of Historical Newspapers",
+    author = "Thomas, Alan and Gaizauskas, Robert and Lu, Haiping",
+    booktitle = "Proceedings of the Third Workshop on Language Technologies for Historical and Ancient Languages",
+    month = may,
+    year = "2024",
+    url = "https://aclanthology.org/2024.lt4hala-1.14/",
+    pages = "116--121",
+    abstract = "Poor OCR quality continues to be a major obstacle for humanities scholars seeking to make use of digitised primary sources such as historical newspapers. Typical approaches to post-OCR correction employ sequence-to-sequence models for a neural machine translation task, mapping erroneous OCR texts to accurate reference texts. We shift our focus towards the adaptation of generative LLMs for a prompt-based approach. By instruction-tuning Llama 2 and comparing it to a fine-tuned BART on BLN600, a parallel corpus of 19th century British newspaper articles, we demonstrate the potential of a prompt-based approach in detecting and correcting OCR errors, even with limited training data. We achieve a significant enhancement in OCR quality with Llama 2 outperforming BART, achieving a 54.51{\%} reduction in the character error rate against BART{'}s 23.30{\%}. This paves the way for future work leveraging generative LLMs to improve the accessibility and unlock the full potential of historical texts for humanities research."
+}
+@inproceedings{boros2024post,
+    title = "Post-Correction of Historical Text Transcripts with Large Language Models: An Exploratory Study",
+    author = "Boros, Emanuela and Ehrmann, Maud and Romanello, Matteo and Najem-Meyer, Sven and Kaplan, Fr{\'e}d{\'e}ric",
+    booktitle = "Proceedings of the 8th Joint SIGHUM Workshop on Computational Linguistics for Cultural Heritage",
+    month = mar,
+    year = "2024",
+    doi = "10.18653/v1/2024.latechclfl-1.14",
+    pages = "133--159",
+    abstract = "The quality of automatic transcription of heritage documents, whether from printed, manuscripts or audio sources, has a decisive impact on the ability to search and process historical texts. Although significant progress has been made in text recognition (OCR, HTR, ASR), textual materials derived from library and archive collections remain largely erroneous and noisy. Effective post-transcription correction methods are therefore necessary and have been intensively researched for many years. As large language models (LLMs) have recently shown exceptional performances in a variety of text-related tasks, we investigate their ability to amend poor historical transcriptions. We evaluate fourteen foundation language models against various post-correction benchmarks comprising different languages, time periods and document types, as well as different transcription quality and origins. We compare the performance of different model sizes and different prompts of increasing complexity in zero and few-shot settings. Our evaluation shows that LLMs are anything but efficient at this task. Quantitative and qualitative analyses of results allow us to share valuable insights for future work on post-correcting historical texts with LLMs."
+}
 @misc{yang2024ccocrcomprehensivechallengingocr,
       title={CC-OCR: A Comprehensive and Challenging OCR Benchmark for Evaluating Large Multimodal Models in Literacy}, 
       author={Zhibo Yang and Jun Tang and Zhaohai Li and Pengfei Wang and Jianqiang Wan and Humen Zhong and Xuejing Liu and Mingkun Yang and Peng Wang and Shuai Bai and LianWen Jin and Junyang Lin},
       year={2024},
       eprint={2412.02210},
       archivePrefix={arXiv},
-      primaryClass={cs.CV},
       url={https://arxiv.org/abs/2412.02210}, 
 }
 
@@ -348,15 +385,16 @@ series = {CIKM '25}
       year={2026},
       eprint={2602.23481},
       archivePrefix={arXiv},
-      primaryClass={cs.CL},
       url={https://arxiv.org/abs/2602.23481}, 
 }
 
-@article{Ong2024RouteLLMLT,
-  title={RouteLLM: Learning to Route LLMs with Preference Data},
-  author={Isaac Ong and Amjad Almahairi and Vincent Wu and Wei-Lin Chiang and Tianhao Wu and Joseph E. Gonzalez and Mohammed Waleed Kadous and Ion Stoica},
-  journal={arXiv preprint arXiv:2406.18665},
-  year={2024}
+@inproceedings{Ong2025RouteLLMLT,
+ title = {RouteLLM: Learning to Route LLMs from Preference Data},
+author = {Ong, Isaac and Almahairi, Amjad and Wu, Vincent and Chiang, Wei-Lin and Wu, Tianhao and Gonzalez, Joseph E. and Kadous, Mohammed Waleed and Stoica, Ion},
+   booktitle = {International Conference on Learning Representations},
+ pages = {34433--34448},
+ url = {https://proceedings.iclr.cc/paper_files/paper/2025/file/5503a7c69d48a2f86fc00b3dc09de686-Paper-Conference.pdf},
+ year = {2025}
 }
 
 @article{panda2025pilot,
@@ -379,3 +417,55 @@ series = {CIKM '25}
   journal={arXiv preprint arXiv:2604.00136},
   year={2026}
 }
+
+@techreport{google2025gemini3flash,
+  author      = {{Google DeepMind}},
+  title       = {Gemini 3 Flash Model Card},
+  institution = {Google},
+  year        = {2025},
+  url         = {
+https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-3-Flash-Model-Card.pdf
+}}
+
+@misc{openai2024gpt4osystemcard,
+  title         = {GPT-4o System Card}, 
+  author        = {{OpenAI}},
+  year          = {2024},
+  eprint        = {2410.21276},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2410.21276}
+}
+
+@techreport{anthropic2024claude35haiku,
+  author      = {{Anthropic}},
+  title       = {The Claude 3 Model Family: Opus, Sonnet, Haiku (Model Card Addendum: Claude 3.5 Haiku)},
+  institution = {Anthropic},
+  year        = {2024},
+  url         = {https://assets.anthropic.com/m/1cd9d098ac3e6467/original/Claude-3-Model-Card-October-Addendum.pdf}
+}
+
+@article{qwen2024qwen25,
+  title         = {Qwen2.5 Technical Report},
+  author        = {{Qwen Team}},
+  journal       = {arXiv preprint arXiv:2412.15115},
+  year          = {2024},
+  eprint        = {2412.15115},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2412.15115}
+}
+
+@techreport{meta2024llama33,
+  author      = {{Meta AI}},
+  title       = {Llama 3.3 Model Card},
+  institution = {Meta},
+  year        = {2024},
+  url         = {https://www.llama.com/docs/model-cards-and-prompt-formats/llama3_3/}
+}
+@techreport{mistral2025mistralsmall31,
+  author      = {{Mistral AI}},
+  title       = {Mistral Small 3.1 Model Card},
+  institution = {Mistral AI},
+  year        = {2025},
+  url         = {https://mistral.ai/news/mistral-small-3-1/}
+}
+

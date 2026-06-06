@@ -116,7 +116,11 @@ The table below reports the routing comparison on Tesseract OCR with Gemini 3 Fl
 | Baseline OCR (no correction) | 0.0632 | 0.2335 | 0/597 | 100% | — |
 | Spell-check | 0.0675 | 0.2284 | N/A | N/A | -6.80% |
 | ConfBERT ($p \geq 0.5$) | 0.0360 | 0.1330 | 349/597 | 17.6% | +43.0% |
+| ConfBERT (Top 40% budget) | 0.0422 | 0.1589 | 239/597 | 39.6% | +33.2% |
+| ConfBERT (Top 60% budget) | 0.0367 | 0.1332 | 358/597 | 15.6% | +41.9% |
+| ConfBERT (Top 80% budget) | 0.0318 | 0.1180 | 478/597 | 2.5% | +49.7% |
 | **Our Approach** ($\hat{\Delta} \geq 0.03$) | **0.0326** | **0.1198** | 240/597 | **64.9%** | +48.4% |
+| Conditional (Top 40% budget) | 0.0327 | 0.1198 | 239/597 | 65.2% | +48.4% |
 | Conditional (Top 60% budget) | 0.0308 | 0.1069 | 358/597 | 41.0% | +51.2% |
 | Conditional (Top 80% budget) | 0.0303 | 0.1000 | 478/597 | 11.8% | +52.1% |
 | Full LLM (all segments) | 0.0298 | 0.0969 | 597/597 | 0% | +52.9% |
@@ -206,57 +210,9 @@ LLM cost and routing performance comparison on Tesseract OCR. Costs are scaled t
 | *Baseline Tesseract (No correction)* | 0.0632 | 0.2335 | — | — |
 
 ### 5. Model Understanding & Feature Salience
-To understand how different routing models prioritize features, we extract the top 10 feature importances (for tree-based models) or standardized coefficients (for linear models).
+To understand how different routing models prioritize features, we extract the top 10 coefficients for the Lasso Regression model.
 
-#### 5.1. Gradient Boosted Trees (GBT) Classifier
-*Predicts whether correction improves WER by >3%*
-
-| Rank | Feature | Importance | Type | Description |
-|---|---|---|---|---|
-| 1 | `avg_confidence` | 0.2141 | Metadata | Average OCR confidence |
-| 2 | `ortho_integrity_char` | 0.0642 | Surface | Char similarity vs spell-correct |
-| 3 | `ortho_integrity_word` | 0.0482 | Surface | Word-level dictionary hit rate |
-| 4 | `avg_chars_per_line` | 0.0353 | Layout | Layout character density |
-| 5 | `newline_density` | 0.0342 | Surface | Frequency of newlines |
-| 6 | `word_count` | 0.0326 | Surface | Total words |
-| 7 | `publication_year` | 0.0324 | Metadata | Document printing year |
-| 8 | `space_ratio` | 0.0323 | Surface | Space character ratio |
-| 9 | `upper_ratio` | 0.0283 | Surface | Uppercase letter ratio |
-| 10 | `punct_ratio` | 0.0235 | Surface | Punctuation ratio |
-
-#### 5.2. Linear Support Vector Machine (SVM) Classifier
-*Predicts whether correction improves WER by >3%*
-
-| Rank | Feature | Coefficient | Type | Description |
-|---|---|---|---|---|
-| 1 | `avg_confidence` | -1.0607 | Metadata | Low confidence indicates routing |
-| 2 | `ortho_integrity_word` | -0.8691 | Surface | High dictionary errors indicate routing |
-| 3 | `publication_year` | -0.8489 | Metadata | Older docs are routed more |
-| 4 | `unique_char_ratio` | -0.8050 | Surface | Diverse spelling/corruption density |
-| 5 | `freq_d` | -0.6886 | Surface | Frequency of letter 'd' |
-| 6 | `freq_s` | -0.5989 | Surface | Frequency of letter 's' |
-| 7 | `freq_p` | -0.5215 | Surface | Frequency of letter 'p' |
-| 8 | `freq_v` | -0.4887 | Surface | Frequency of letter 'v' |
-| 9 | `freq_o` | -0.4833 | Surface | Frequency of letter 'o' |
-| 10 | `freq_j` | -0.4806 | Surface | Frequency of letter 'j' |
-
-#### 5.3. Ridge Regression
-*Predicts raw Word Error Rate (WER)*
-
-| Rank | Feature | Coefficient | Type | Description |
-|---|---|---|---|---|
-| 1 | `avg_confidence` | -0.0483 | Metadata | Lower confidence strongly correlates with higher error |
-| 2 | `newline_density` | +0.0341 | Surface | Higher line density suggests layout noise |
-| 3 | `freq_y` | +0.0317 | Surface | Frequency of letter 'y' |
-| 4 | `ortho_integrity_char` | -0.0304 | Surface | Char similarity vs spell-correct |
-| 5 | `avg_word_length` | -0.0279 | Surface | Short words indicate higher fragmentation |
-| 6 | `ortho_integrity_word` | -0.0277 | Surface | Word-level dictionary hit rate |
-| 7 | `dict_hit_rate` | -0.0241 | Surface | Vocabulary validation hit rate |
-| 8 | `freq_l` | -0.0185 | Surface | Frequency of letter 'l' |
-| 9 | `freq_g` | +0.0174 | Surface | Frequency of letter 'g' |
-| 10 | `space_ratio` | +0.0172 | Surface | Higher spacing ratio |
-
-#### 5.4. Lasso Regression
+#### Lasso Regression
 *Predicts raw Word Error Rate (WER)*
 
 | Rank | Feature | Coefficient | Type | Description |
@@ -271,22 +227,6 @@ To understand how different routing models prioritize features, we extract the t
 | 8 | `newspaper_TL` | +0.0285 | Metadata | Target newspaper indicator |
 | 9 | `freq_c` | -0.0274 | Surface | Frequency of letter 'c' |
 | 10 | `freq_l` | -0.0273 | Surface | Frequency of letter 'l' |
-
-#### 5.5. Lasso Delta Regression (Our Routing Signal)
-*Predicts Delta (Improvement in WER/CER) directly*
-
-| Rank | Feature | Coefficient | Type | Description |
-|---|---|---|---|---|
-| 1 | `avg_confidence` | -0.0867 | Metadata | Lower confidence indicates higher potential correction gain |
-| 2 | `freq_y` | +0.0346 | Surface | Frequency of letter 'y' |
-| 3 | `newline_density` | +0.0041 | Surface | Higher line density suggests potential layout correction gain |
-| 4 | `freq_e` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
-| 5 | `freq_o` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
-| 6 | `freq_n` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
-| 7 | `freq_m` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
-| 8 | `freq_l` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
-| 9 | `freq_k` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
-| 10 | `freq_j` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
 
 ---
 
