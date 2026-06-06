@@ -1,0 +1,76 @@
+Loading tesseract records...
+  [tesseract] 597 valid baseline records
+  [tesseract] confidence lookup: 632 entries
+  Loading corrections from corrections/tesseract/tesseract_Full_Expert_Robuste_8_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+Loading cached features from results/ml_models/cached_features_noemb.npy...
+
+Training GBT Classifier...
+Training Linear SVM Classifier...
+Training Ridge Regression (predicting raw WER)...
+Training Lasso Regression (predicting raw WER)...
+Training Lasso Delta Regression (predicting Delta WER)...
+
+================================================================================
+Most Salient Features Per Model
+================================================================================
+
+--- Model: GBT ---
+   1. avg_confidence                      | value/importance = +0.214094
+   2. ortho_integrity_char                | value/importance = +0.064178
+   3. ortho_integrity_word                | value/importance = +0.048215
+   4. avg_chars_per_line                  | value/importance = +0.035335
+   5. newline_density                     | value/importance = +0.034219
+   6. word_count                          | value/importance = +0.032567
+   7. publication_year                    | value/importance = +0.032380
+   8. space_ratio                         | value/importance = +0.032335
+   9. upper_ratio                         | value/importance = +0.028332
+  10. punct_ratio                         | value/importance = +0.023481
+
+--- Model: SVM ---
+   1. avg_confidence                      | value/importance = -1.060689
+   2. ortho_integrity_word                | value/importance = -0.869119
+   3. publication_year                    | value/importance = -0.848851
+   4. unique_char_ratio                   | value/importance = -0.805021
+   5. freq_d                              | value/importance = -0.688557
+   6. freq_s                              | value/importance = -0.598892
+   7. freq_p                              | value/importance = -0.521533
+   8. freq_v                              | value/importance = -0.488721
+   9. freq_o                              | value/importance = -0.483310
+  10. freq_j                              | value/importance = -0.480638
+
+--- Model: RIDGE ---
+   1. avg_confidence                      | value/importance = -0.048267
+   2. newline_density                     | value/importance = +0.034110
+   3. freq_y                              | value/importance = +0.031727
+   4. ortho_integrity_char                | value/importance = -0.030382
+   5. avg_word_length                     | value/importance = -0.027919
+   6. ortho_integrity_word                | value/importance = -0.027701
+   7. dict_hit_rate                       | value/importance = -0.024147
+   8. freq_l                              | value/importance = -0.018465
+   9. freq_g                              | value/importance = +0.017388
+  10. space_ratio                         | value/importance = +0.017197
+
+--- Model: LASSO ---
+   1. newline_density                     | value/importance = +0.163750
+   2. space_ratio                         | value/importance = +0.144716
+   3. avg_confidence                      | value/importance = -0.128944
+   4. ortho_integrity_word                | value/importance = -0.074969
+   5. freq_y                              | value/importance = +0.068877
+   6. freq_j                              | value/importance = -0.033239
+   7. freq_g                              | value/importance = +0.032863
+   8. newspaper_TL                        | value/importance = +0.028513
+   9. freq_c                              | value/importance = -0.027432
+  10. freq_l                              | value/importance = -0.027269
+
+--- Model: LASSO_DELTA ---
+   1. avg_confidence                      | value/importance = -0.086688
+   2. freq_y                              | value/importance = +0.034571
+   3. newline_density                     | value/importance = +0.004071
+   4. freq_e                              | value/importance = +0.000000
+   5. freq_o                              | value/importance = -0.000000
+   6. freq_n                              | value/importance = +0.000000
+   7. freq_m                              | value/importance = -0.000000
+   8. freq_l                              | value/importance = -0.000000
+   9. freq_k                              | value/importance = -0.000000
+  10. freq_j                              | value/importance = -0.000000

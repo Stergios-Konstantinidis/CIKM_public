@@ -211,7 +211,7 @@ minimizing $\widetilde{W}(k)$. Sweeping $k$ from $0$ to $n$ traces a continuous
 (Figure~\ref{fig:routing_frontier}), along which any operating point can be
 selected.
 
-\begin{figure*}[t]
+\begin{figure*}[t!]
 \centering
 \includegraphics[width=\textwidth]{results/figures/routing_frontier/lassocv/routing_frontier_0pp.png}
 \caption{Routing frontier comparing four OCR-correction strategies: LLM Oracle, Spell-check baseline, ConfBERT~\cite{10.1007/978-3-031-70442-0_13}, and our regression-guided router. AUC is annotated per curve. The secondary x-axis (top) reports cumulative tokens submitted to the LLM (Gemini~3 Flash).}
@@ -279,7 +279,7 @@ models, and the full prompt ablation are in the repository.
 \medskip\noindent\textbf{Baselines and protocol.}
 We compare our \textbf{regression-guided routing}, which ranks segments by
 predicted improvement per token $\hat{s}_i = \hat{\Delta}_i / |d_i|$ and corrects
-the top-$k$, against Full-Text LLM (correct all), Conditional-Full (correct
+the top-$k$, against Full-Text LLM (correct all), Conditional (correct
 segments below a confidence threshold), ConfBERT~\cite{10.1007/978-3-031-70442-0_13}
 (BERT with token-level confidence injection), orthographic spell-checking (using the dictionary-based \texttt{pyspellchecker}), and an
 Oracle that routes by the true $\Delta_i$. The regression uses 54 features
@@ -314,38 +314,16 @@ slightly worse than no correction on CER.
 Baseline OCR (no correction) & 0.0632 & 0.2335 & 0/597 & 100\% & --- \\
 Spell-check & 0.0675 & 0.2284 & N/A & N/A & $-$6.80\% \\
 ConfBERT ($p\!\geq\!0.5$) & 0.0360 & 0.1330 & 349/597 & 17.6\% & +43.0\% \\
+\textbf{Our Approach} ($\hat{\Delta}\!\geq\!0.03$) & \textbf{0.0326} & \textbf{0.1198} & 240/597 & \textbf{64.9\%} & +48.4\% \\
+Conditional  (Top 60\% budget) & 0.0308 & 0.1069 & 358/597 & 41.0\% & +51.2\% \\
+Conditional  (Top 80\% budget) & 0.0303 & 0.1000 & 478/597 & 11.8\% & +52.1\% \\ 
 Full LLM (all segments) & 0.0298 & 0.0969 & 597/597 & 0\% & +52.9\% \\
-\textbf{Our Approach} ($\hat{\Delta}\!\geq\!0.03$) & \textbf{0.0326} & \textbf{0.1198} & 240/597 & \textbf{64.9\%} & +48.4\% \\ \bottomrule
+\bottomrule
 \end{tabular}
 }
 \end{table}
 
-To illustrate how quality degrades gracefully with budget,
-Table~\ref{tab:budget_operating_points} reports budget-based operating points read from
-the routing frontier (correcting the top~20\%, 40\%, 60\%, 80\%, and 100\%) alongside our optimal
-$\hat{\Delta}_i\!\geq\!0.03$ threshold.
-Correcting 60\% of segments recovers 96.8\% of the full-correction CER
-improvement while still saving 41.0\% of tokens; the 40\% budget captures
-91.4\% of the improvement at 65.2\% token savings.
-
-\begin{table}[h]
-\centering
-\caption{Budget-based operating points for our routing on Tesseract OCR with Gemini~3 Flash.}
-\label{tab:budget_operating_points}
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{@{}lccccc@{}}
-\toprule
-\textbf{Correction} & \textbf{CER} & \textbf{WER} & \textbf{Docs} & \textbf{Token} & \textbf{CER} \\
-\textbf{Budget} & & & \textbf{Corrected} & \textbf{Savings} & \textbf{Improv.} \\ \midrule
-Top 20\%                                               & 0.0410 & 0.1554 & 119/597 & 88.0\% & +35.2\% \\
-Top 40\%                                               & 0.0327 & 0.1198 & 239/597 & 65.2\% & +48.4\% \\
-\textbf{Ours} ($\hat{\Delta}\!\geq\!0.03$)           & \textbf{0.0326} & \textbf{0.1198} & 240/597 & \textbf{64.9\%} & +48.4\% \\
-Top 60\%                                              & 0.0308 & 0.1069 & 358/597 & 41.0\% & +51.2\% \\
-Top 80\%                                               & 0.0303 & 0.1000 & 478/597 & 11.8\% & +52.1\% \\ \hline
-\textit{Full correction (100\%)}                 & 0.0298 & 0.0969 & 597/597 & 0\% & +52.9\% \\ \bottomrule
-\end{tabular}
-}
-\end{table}
+To illustrate how quality degrades gracefully with budget, Table~\ref{tab:routing_comparison} also reports budget-based operating points read from the routing frontier (correcting the top~60\% and 80\% of segments). Correcting 60\% of segments recovers 96.8\% of the full-correction CER improvement while still saving 41.0\% of tokens, whereas the top~80\% budget captures 98.5\% of the improvement at 11.8\% token savings.
 
 \subsection{RQ2: Predicting CER Improvement}
 RQ1 depends on ranking segments by predicted improvement, so we next ask how well
@@ -357,7 +335,7 @@ correctly orders segments by expected benefit and
 the routing frontier in RQ1 confirms that our predictions rank segments nearly
 as well as the Oracle.
 
-\begin{figure}[t]
+\begin{figure}[t!]
 \centering
 \includegraphics[width=\linewidth]{paper/figures/predicted_vs_actual_cer_loo_cv10.pdf}
 \caption{Predicted versus actual CER improvement $\Delta_i$ on held-out segments (LOO)}
@@ -385,7 +363,7 @@ Together with RQ1 and RQ2, this shows that a cheap correction model driven by a
 feature-based router recovers most of the quality of full correction at a
 fraction of the cost.
 
-\begin{table}[h]
+\begin{table}[h!]
 \centering
 \caption{LLM cost comparison: full correction vs.\ our routing ($\hat{\Delta}_i\!\geq\!0.03$\,) on Tesseract OCR. Costs scaled to 10\,M segments.}
 \label{tab:llm_cost}

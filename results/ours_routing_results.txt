@@ -1,0 +1,35 @@
+  [tesseract] 597 valid baseline records
+  [tesseract] confidence lookup: 632 entries
+  Building 54-d features for 597 records …
+| Prompt Level | Ours (Δ >= 0.03) WER/CER | Routed % |
+|---|---|---|
+  Loading corrections from corrections/tesseract/tesseract_Full_Basic_1_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+| Prompt A | 0.1346/0.0362 | 40.4% |
+  Loading corrections from corrections/tesseract/tesseract_Full_Basic_plus_2_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+| Prompt B | 0.1533/0.0407 | 32.8% |
+  Loading corrections from corrections/tesseract/tesseract_Full_Intermediate_3_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+| Prompt C | 0.1480/0.0389 | 35.0% |
+  Loading corrections from corrections/tesseract/tesseract_Full_Intermediate_plus_4_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+| Prompt D | 0.1320/0.0365 | 39.0% |
+  Loading corrections from corrections/tesseract/tesseract_Full_Advanced_5_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+| Prompt E | 0.1367/0.0391 | 32.8% |
+  Loading corrections from corrections/tesseract/tesseract_Full_Advanced_plus_6_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+| Prompt F | 0.1454/0.0397 | 29.0% |
+  Loading corrections from corrections/tesseract/tesseract_Full_Expert_Few_Shot_7_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+| Prompt G | 0.1471/0.0398 | 32.5% |
+  Loading corrections from corrections/tesseract/tesseract_Full_Expert_Robuste_8_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+| Prompt H | 0.1198/0.0326 | 40.2% |
+  Loading corrections from corrections/tesseract/tesseract_Full_Master_Chain_of_Thought_9_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+| Prompt I | 0.1234/0.0319 | 41.4% |
+  Loading corrections from corrections/tesseract/tesseract_Full_Ultimate_Master_10_google__gemini-3-flash-preview.json
+  Loaded corrections for 620 documents
+| Prompt J | 0.1366/0.0357 | 38.2% |
