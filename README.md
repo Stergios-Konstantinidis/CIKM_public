@@ -197,13 +197,10 @@ We evaluated six open- and closed-source LLMs using the `Full_Expert_Robuste_8` 
 | *Baseline Tesseract (No LLM)* | *0.2335* | *0.0632* | Reference baseline. |
 
 ### 4. Model Understanding & Feature Salience
-To understand how different routing models prioritize features, we extract the top 10 feature importances (for tree-based models) or standardized coefficients (for linear models). 
+To understand how different routing models prioritize features, we extract the top 10 feature importances (for tree-based models) or standardized coefficients (for linear models).
 
-Below is a sequential carousel of the top features across the GBT classifier, Linear SVM, Ridge regression, Lasso regression, and Lasso Delta regression (the routing signal model):
-
-````carousel
-### Gradient Boosted Trees (GBT)
-*Classifier predicting delta > 0.03*
+#### 4.1. Gradient Boosted Trees (GBT) Classifier
+*Predicts whether correction improves WER by >3%*
 
 | Rank | Feature | Importance | Type | Description |
 |---|---|---|---|---|
@@ -218,9 +215,8 @@ Below is a sequential carousel of the top features across the GBT classifier, Li
 | 9 | `upper_ratio` | 0.0283 | Surface | Uppercase letter ratio |
 | 10 | `punct_ratio` | 0.0235 | Surface | Punctuation ratio |
 
-<!-- slide -->
-### Linear Support Vector Machine (SVM)
-*Classifier predicting delta > 0.03*
+#### 4.2. Linear Support Vector Machine (SVM) Classifier
+*Predicts whether correction improves WER by >3%*
 
 | Rank | Feature | Coefficient | Type | Description |
 |---|---|---|---|---|
@@ -235,9 +231,8 @@ Below is a sequential carousel of the top features across the GBT classifier, Li
 | 9 | `freq_o` | -0.4833 | Surface | Frequency of letter 'o' |
 | 10 | `freq_j` | -0.4806 | Surface | Frequency of letter 'j' |
 
-<!-- slide -->
-### Ridge Regression
-*Regressor predicting raw WER*
+#### 4.3. Ridge Regression
+*Predicts raw Word Error Rate (WER)*
 
 | Rank | Feature | Coefficient | Type | Description |
 |---|---|---|---|---|
@@ -252,9 +247,8 @@ Below is a sequential carousel of the top features across the GBT classifier, Li
 | 9 | `freq_g` | +0.0174 | Surface | Frequency of letter 'g' |
 | 10 | `space_ratio` | +0.0172 | Surface | Higher spacing ratio |
 
-<!-- slide -->
-### Lasso Regression
-*Regressor predicting raw WER*
+#### 4.4. Lasso Regression
+*Predicts raw Word Error Rate (WER)*
 
 | Rank | Feature | Coefficient | Type | Description |
 |---|---|---|---|---|
@@ -269,9 +263,8 @@ Below is a sequential carousel of the top features across the GBT classifier, Li
 | 9 | `freq_c` | -0.0274 | Surface | Frequency of letter 'c' |
 | 10 | `freq_l` | -0.0273 | Surface | Frequency of letter 'l' |
 
-<!-- slide -->
-### Lasso Delta Regression (Our Routing Signal)
-*Regressor predicting Delta (Improvement in WER/CER) directly*
+#### 4.5. Lasso Delta Regression (Our Routing Signal)
+*Predicts Delta (Improvement in WER/CER) directly*
 
 | Rank | Feature | Coefficient | Type | Description |
 |---|---|---|---|---|
@@ -285,7 +278,7 @@ Below is a sequential carousel of the top features across the GBT classifier, Li
 | 8 | `freq_l` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
 | 9 | `freq_k` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
 | 10 | `freq_j` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
-````
+
 
 
 ### 5. Routing Strategy Performance Comparison Chart
