@@ -1,18 +1,21 @@
-# Document Engineering OCR Benchmarking Experiment
+# Knowing When to Correct: Cost-Aware LLM Routing for OCR Post-Correction in Historical Documents
 
-This repository contains the research, experiments, and LaTeX documentation for benchmarking document layout parsing and evaluating the cost vs. correctness trade-offs of using Large Language Models (LLMs) for Optical Character Recognition (OCR) ground truth correction.
+This repository contains the research, experiments, and LaTeX documentation for Cost-Aware LLM Routing for OCR Post-Correction in Historical Documents.
 
 ## 📌 Project Overview
 
-The primary focus of this project is to assess document layout parser models and implement an effective pipeline for threshold-based LLM OCR correction. The core research addresses:
+The primary focus of this project is to implement a cost-aware selective routing framework for LLM-based OCR post-correction. We evaluate this strategy across multiple OCR engines and correction models using historical documents.
 
-1.  **Model Evaluation:** Benchmarking state-of-the-art parser models alongside standard OCR engines (Tesseract, EasyOCR, PaddleOCR).
-2.  **Ground Truth Generation & Correction:** Utilizing LLMs with tailored, increasingly complex prompts (from basic cleanup to expert "expert-robuste" strategies).
-3.  **Correctness vs. Cost Trade-offs:** selective triggering of LLM corrections based on OCR confidence scores.
-    *   **Full Correction:** Processes the entire document via LLM.
-    *   **Selective Correction:** Targets only low-confidence segments (e.g., < 80% or 90%) with local context.
-    *   **Conditional Full Correction:** Processes entire documents only if the average confidence falls below a set threshold.
-4.  **Metrics & Visualization:** Implementing robust evaluation metrics including WER (Word Error Rate) and CER (Character Error Rate).
+![Methodology Overview](paper/figures/overview.png)
+
+The core research addresses:
+1. **Model Evaluation:** Benchmarking parser models and OCR engines (Tesseract, EasyOCR, PaddleOCR).
+2. **Ground Truth Generation & Correction:** Using LLMs with expert-engineered prompt strategies.
+3. **Correctness vs. Cost Trade-offs:** selective triggering of LLM corrections based on OCR confidence scores.
+    * **Full Correction:** Processes the entire document via LLM.
+    * **Selective Correction:** Targets only low-confidence segments with local context.
+    * **Conditional Full Correction:** Processes entire documents only if average confidence falls below a threshold.
+4. **Metrics & Visualization:** Implementing robust metrics including WER (Word Error Rate) and CER (Character Error Rate).
 
 ---
 
@@ -24,14 +27,16 @@ The primary focus of this project is to assess document layout parser models and
 │   ├── run_evaluations.py          # Main evaluation pipeline entry point
 │   ├── run_evaluations_conditional.py # Hybrid strategy evaluation
 │   ├── update_confidence_data.py   # Stats generation for conditional logic
-│   ├── plot_confidence.py          # Visualizing OCR confidence distributions
-│   ├── plot_error_confidence.py    # Word-level error/confidence analysis
-│   └── plot_error_confidence_cer.py # Character-level error/confidence analysis
+│   ├── plotting/                   # Visualization scripts for paper figures
+│   │   ├── plot_delta_scatter_spearman.py # Figure 3 generator
+│   │   ├── plot_routing_frontier_lassocv_clean.py # Figure 2 generator
+│   │   └── ...
+│   └── ...
 ├── data/                   # Datasets and operational configurations
 │   ├── evaluation_dataset/         # Images and groundtruth.json
 │   ├── raw_ocr_results.json        # Cached raw OCR outputs (Efficiency)
 │   └── sample_prompts.json         # Hierarchical LLM prompt library
-├── paper/                  # LaTeX manuscript for ICDAR/DocEng 2026
+├── paper/                  # LaTeX manuscript for CIKM 2026 (Short Paper)
 │   ├── main.tex                    # Manuscript source
 │   ├── main.bib                    # Bibliography/Related Papers
 │   └── figures/                    # Experimental plots and visualizations
@@ -46,7 +51,7 @@ The primary focus of this project is to assess document layout parser models and
 ## 🚀 Getting Started
 
 ### 1. Environment Setup
-Ensure your Python environment is initialized and all dependencies are installed within a virtual environment.
+Ensure your Python environment is initialized and all dependencies are installed.
 
 ```bash
 # Initialize venv
@@ -77,34 +82,52 @@ OPENROUTER_API_KEY=your_key_here
 ### Visualization & Metrics
 Generate the charts used in the Methodology and Results sections:
 ```bash
-python code/plot_confidence.py           # Confidence density plots
-python code/plot_error_confidence.py     # WER vs Confidence alignment
-python code/plot_error_confidence_cer.py # CER vs Confidence (Historical artifacts)
-```
-
-### Paper Compilation
-To compile the LaTeX manuscript:
-```bash
-cd paper
-pdflatex main.tex
-bibtex main
-pdflatex main.tex
-pdflatex main.tex
+python code/plotting/plot_delta_scatter_spearman.py        # Predicted vs Actual scatter plot (Figure 3)
+python code/plotting/plot_routing_frontier_lassocv_clean.py # Routing Frontier (Figure 2)
 ```
 
 ---
 
-## 📊 Experimental Results (Current Baseline)
+## 📊 Dataset & Corpus Composition (Table 1 from Paper)
 
-| Strategy | WER | CER | Improvement (WER) | Estimated Cost |
-| :--- | :--- | :--- | :--- | :--- |
-| **Baseline (No LLM)** | 0.5439 | 0.1824 | - | $0.00 |
-| **Full Text Correction** | 0.1176 | 0.0345 | **+78.4%** | $0.00* |
-| **Conditional Full (0.90)** | 0.1241 | 0.0447 | **+77.2%** | **$0.008** |
-| **Selective Ortho (0.80)** | 0.2628 | 0.0809 | **+51.7%** | $0.00 |
+Our evaluation corpus consists of 609 text segments from nine Swiss historical newspapers (1733–1945) in the digital archives of the Canton of Vaud.
+
+| Newspaper | Dates | Issues | Pages | Text segments |
+| :--- | :---: | :---: | :---: | :---: |
+| La Revue | 1875–1945 | 4 | 5 | 139 |
+| Feuille d'Avis | 1762–1841 | 4 | 13 | 131 |
+| Tribune de Lausanne | 1912 | 3 | 4 | 105 |
+| Nouvelliste Vaudois | 1822–1840 | 3 | 7 | 90 |
+| Petite Revue | 1943 | 1 | 1 | 46 |
+| Lausanne Artistique | 1926 | 1 | 1 | 32 |
+| Almanach | 1832 | 1 | 8 | 31 |
+| Estafette | 1862 | 1 | 1 | 19 |
+| Mercure Suisse | 1733–1738 | 2 | 5 | 16 |
+| **Total** | **1733–1945** | **20** | **45** | **609** |
+
+---
+
+## 📊 Experimental Results (Table 2 from Paper)
+
+The table below reports the routing comparison on Tesseract OCR with Gemini 3 Flash correction. CER and WER report the corpus-level error rate after applying each method.
+
+| Method | CER | WER | Docs Corrected | Token Savings | CER Improv. |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| Baseline OCR (no correction) | 0.0632 | 0.2335 | 0/597 | 100% | — |
+| Spell-check | 0.0675 | 0.2284 | N/A | N/A | -6.80% |
+| ConfBERT ($p \geq 0.5$) | 0.0360 | 0.1330 | 349/597 | 17.6% | +43.0% |
+| **Our Approach** ($\hat{\Delta} \geq 0.03$) | **0.0326** | **0.1198** | 240/597 | **64.9%** | +48.4% |
+| Conditional (Top 60% budget) | 0.0308 | 0.1069 | 358/597 | 41.0% | +51.2% |
+| Conditional (Top 80% budget) | 0.0303 | 0.1000 | 478/597 | 11.8% | +52.1% |
+| Full LLM (all segments) | 0.0298 | 0.0969 | 597/597 | 0% | +52.9% |
 
 ### The "Modernization" Trap & Historical Context
-While traditional orthographic correctors (e.g., `pyspellchecker`) provide some improvement on very noisy OCR (bringing WER from **0.54** down to **0.32**), they plateau quickly as they start incorrectly normalizing valid 18th-century vocabulary (*seroit*) into modern French. LLM-based approaches, like `gemini-3-flash-preview` with expert prompts, succeed by leveraging context-aware semantics to preserve historical authenticity while fixing actual OCR artifacts, reaching much lower error rates (**WER 0.11**).
+While traditional orthographic correctors (e.g., `pyspellchecker`) provide only minor improvement on historical OCR (bringing WER from 23.35% down to 22.84% on Tesseract, and actually worsening CER from 6.32% to 6.75%), they plateau quickly and introduce errors by incorrectly normalizing valid 18th-century vocabulary (like changing historical "seroit" to modern "serait"). LLM-based approaches with expert prompts succeed by leveraging context-aware semantics to preserve historical authenticity while fixing actual OCR artifacts, reaching much lower error rates (WER 9.69% for Full LLM and 11.98% for our regression-guided router).
+
+### Routing Frontier Chart (Figure 2 from Paper)
+Below is the routing frontier comparing the four OCR-correction strategies. The secondary x-axis (top) reports cumulative tokens submitted to the LLM (Gemini 3 Flash).
+
+![Routing Frontier Chart](results/figures/routing_frontier/lassocv/routing_frontier_0pp.png)
 
 ---
 
@@ -129,33 +152,26 @@ We evaluated 10 hierarchical prompt templates ranging from basic cleanup to expe
 | **Prompt I** | `Full_Master_Chain_of_Thought` | 0.1065/**0.0278** | 0.1642/0.0466 | 0.0858/**0.0265** |
 | **Prompt J** | `Full_Ultimate_Master` | 0.1238/0.0356 | 0.1618/0.0489 | 0.0987/0.0316 |
 
-#### Key Insights from Prompt Ablation:
-- **Prompt H** achieves the absolute lowest Word Error Rate (WER) across all three engines. Its brute-force instruction template avoids conversational padding/formatting and forces the LLM to output pure corrected text directly.
-- **Prompt I** achieves the lowest Character Error Rate (CER) on Tesseract and PaddleOCR. The structured introspection step (`<plan_et_analyse>`) lets the model capture fine-grained character details before producing the final text.
-- A "Modernization Trap" is visible at **Prompts B, F, and G** where prompts over-optimize for modern styling, resulting in a higher WER on historically spelling-rich documents.
-
-#### Prompt Level Groupings & Definitions (Demystified)
-To understand the complexity scaling across the 10 hierarchical prompt templates (A through J), here is what each level represents:
-
+#### Prompt Level Groupings & Definitions
 * **Group 1: Prompts A-C (Basic Formatting & Historical Rules)**
-  * **Prompt A (Correction Minimale)**: Direct instructions setting the global task context of historical French OCR post-correction without listing specific rules.
-  * **Prompt B (Spacing and Layout)**: Adds instructions on whitespace reduction, preserving newline characters, and leaving historical vocabulary untouched.
-  * **Prompt C (History & Punctuation)**: Adds explicit rules for handling spacing around punctuation and transcribing the historical long "S" (`ſ` $\rightarrow$ `s`) while preserving archaic spellings (e.g., *seroit*).
+  * **Prompt A (Correction Minimale)**: Direct instructions setting the global task context without listing specific rules.
+  * **Prompt B (Spacing and Layout)**: Adds instructions on whitespace reduction and leaving historical vocabulary untouched.
+  * **Prompt C (History & Punctuation)**: Adds explicit rules for punctuation spacing and transcribing historical long "S" (`ſ` $\rightarrow$ `s`).
 * **Group 2: Prompts D-G (OCR Sensitivity & Intermediate Regularization)**
-  * **Prompt D (OCR Error Sensitivity)**: Injects hints on typical OCR-specific confusions (e.g., mapping `u` $\leftrightarrow$ `n`, `9` $\leftrightarrow$ `g`) and unifying case consistency (e.g., `LAUsANNE` $\rightarrow$ `LAUSANNE`).
-  * **Prompt E (Ligatures & Ratures)**: Introduces cleaning rules for historical ligatures and accents (e.g., `E'` $\rightarrow$ `É`, `&z` $\rightarrow$ `&`), subscript/superscript alignment, and the absolute removal of crossed-out/strike-through text.
-  * **Prompt F (Bulleted Role Structure)**: Reformulates all previous instructions into clean, bulleted categories (e.g., Margins, Typo, Casse) to optimize instruction following for LLMs.
-  * **Prompt G (Contextual Examples)**: Integrates in-context few-shot learning by providing concrete examples of raw OCR string inputs alongside their expected target corrections.
+  * **Prompt D (OCR Error Sensitivity)**: Injects hints on typical OCR-specific confusions (e.g., mapping `u` $\leftrightarrow$ `n`, `9` $\leftrightarrow$ `g`).
+  * **Prompt E (Ligatures & Ratures)**: Introduces cleaning rules for historical ligatures, accents, and strike-through text.
+  * **Prompt F (Bulleted Role Structure)**: Reformulates all previous instructions into clean, bulleted categories.
+  * **Prompt G (Contextual Examples)**: Integrates in-context few-shot learning by providing examples of raw OCR inputs and target corrections.
 * **Group 3: Prompts H-J (Advanced & Structural Expert Guidelines)**
-  * **Prompt H (Brute-Force Extraction)**: Employs a zero-preamble, direct extraction command that forces the LLM to output the corrected text directly, stripping all chat padding, meta-information, or formatting blocks.
-  * **Prompt I (Chain-of-Thought)**: Instructs the model to think step-by-step and write a detailed analysis inside a `<plan_et_analyse>` block before outputting the corrected text.
-  * **Prompt J (Exhaustive Manual)**: A comprehensive instruction set merging all previous guidelines into a highly formal, categorized annotator manual format.
+  * **Prompt H (Brute-Force Extraction)**: Employs a zero-preamble, direct extraction command that forces the LLM to output the corrected text directly.
+  * **Prompt I (Chain-of-Thought)**: Instructs the model to write a detailed analysis inside a `<plan_et_analyse>` block before outputting the corrected text.
+  * **Prompt J (Exhaustive Manual)**: A comprehensive instruction set merging all previous guidelines into a highly formal manual format.
 
-### 1.1. Contextual Routing Performance (Selective vs. No-Context)
+### 2. Contextual Routing Performance (Selective vs. No-Context)
 
 To correct low-confidence text segments, we compare two routing strategies that differ in how much text is sent to the LLM:
-- **Selective (with Context)**: When a low-confidence text line is routed for correction, it is sent to the LLM along with the **preceding and succeeding lines** from the original document layout. The LLM prompt explicitly instructs the model to *only* correct the target line, using the surrounding lines strictly as semantic context to help resolve word boundaries, OCR hyphenations, and spelling ambiguities.
-- **Selective No-Context (No-Ctx)**: The routed low-confidence line is sent to the LLM completely in **isolation**. The model has no access to surrounding lines and must perform the correction using only the character cues on the target line itself.
+- **Selective (with Context)**: The target line is sent along with its preceding and succeeding layout lines.
+- **Selective No-Context (No-Ctx)**: The routed line is sent in isolation.
 
 Below is the performance comparison across all 10 prompt levels for Tesseract OCR at confidence thresholds of $\text{thr} = 80$ and $\text{thr} = 90$:
 
@@ -172,34 +188,27 @@ Below is the performance comparison across all 10 prompt levels for Tesseract OC
 | **Prompt I** | 0.1065/0.0278 | 0.2123/0.0663 | 0.2086/0.0636 | 0.2325/0.0805 | 0.2303/0.0891 | 0.1234/0.0319 | 41.4% |
 | **Prompt J** | 0.1238/0.0356 | 0.2127/0.0675 | 0.2152/0.0657 | 0.2183/0.0780 | 0.2142/0.0770 | 0.1366/0.0357 | 38.2% |
 
-#### Key Observations:
-- **Importance of Context**: For **Prompts A, E, and F**, removing context causes a massive spike in character error rates (CER increases from ~0.06 to ~0.13). Without surrounding context, the LLM struggles to resolve layout segmentation or line breaks, leading to counter-productive formatting edits.
-- **Robustness of Advanced Prompts**: For highly structured expert prompts (**Prompts H, I, and J**), the difference between having context and not having context is much smaller, as the prompt's strong internal constraints prevent format deviations even when local context is absent.
-- **Efficiency of Predicted Delta Routing (Ours)**: By routing only documents predicted to yield an improvement of $\Delta_{\text{CER}} \geq 0.03$, our strategy routes on average **only ~30–40%** of the corpus (e.g., 40.2% for Prompt H). Despite correcting less than half of the documents, it captures the majority of the Full correction's quality gains (e.g., Prompt H WER of 0.1198 vs. Full correction's 0.0953 and raw OCR baseline's 0.2335), presenting a highly optimized cost-accuracy trade-off.
+### 3. Predicted vs. Actual CER Improvement (Figure 3 from Paper)
+Below is the correlation scatter plot of the predicted versus actual CER improvement ($\Delta_i$) on held-out segments (Leave-One-Out CV).
 
-### 2. Oracle Curves for Prompting Strategies
-Below is the graph comparing the Oracle curves for all prompting strategies, indicating how error rate declines as we correct an increasing percentage of documents.
+![Predicted vs Actual CER](paper/figures/predicted_vs_actual_cer_loo_cv10.png)
 
-![Oracle Prompting Strategies](results/figures/validationprompts/oracle_prompting_strategies.png)
+### 4. Downstream Correction LLM Model Comparison (Table 3 from Paper)
+LLM cost and routing performance comparison on Tesseract OCR. Costs are scaled to 10M segments.
 
-### 3. Downstream Correction LLM Model Comparison
-We evaluated six open- and closed-source LLMs using the `Full_Expert_Robuste_8` prompt template on Tesseract OCR:
+| LLM Model | CER | WER | Full Cost (10M docs) | Routed Cost (10M docs) |
+| :--- | :---: | :---: | :---: | :---: |
+| **Gemini 3 Flash** | 0.0326 | 0.1198 | \$2,370 | \$830 |
+| **Gemini 3.1 Flash Lite** | 0.0444 | 0.1374 | \$1,180 | \$410 |
+| **GPT-4o** | 0.0436 | 0.1445 | \$8,940 | \$3,140 |
+| **Qwen 2.5-72B** | 0.0564 | 0.1625 | — | — |
+| **Mistral 3.1-24B** | 0.9893 | 0.8720 | — | — |
+| *Baseline Tesseract (No correction)* | 0.0632 | 0.2335 | — | — |
 
-| Model | Average WER | Average CER | Key Takeaway |
-|---|---|---|---|
-| **Google Gemini 3 Flash** | **0.0969** | **0.0298** | Absolute best correction quality with high speed and low cost. |
-| **Google Gemini 3.1 Flash Lite** | 0.1093 | 0.0403 | Exceptional speed and cost efficiency, perfect for large scale runs. |
-| **OpenAI GPT-4o** | 0.1282 | 0.0486 | Solid correction, but significantly more expensive without quality gains. |
-| **OpenAI GPT-4o Mini** | 0.1646 | 0.0631 | Performs worse than baseline on character-level metrics (0.0631 vs 0.0632). |
-| **Qwen 2.5 72B Instruct** | 0.1742 | 0.0861 | Struggles with historical French typography. |
-| **Meta Llama 3.3 70B Instruct** | 0.1924 | 0.0981 | Tends to over-modernize or hallucinate text structure. |
-| **Mistral Small 3.1 24B Instruct** | 5.8122 | 5.7844 | Fails completely due to output format formatting errors/hallucinations. |
-| *Baseline Tesseract (No LLM)* | *0.2335* | *0.0632* | Reference baseline. |
-
-### 4. Model Understanding & Feature Salience
+### 5. Model Understanding & Feature Salience
 To understand how different routing models prioritize features, we extract the top 10 feature importances (for tree-based models) or standardized coefficients (for linear models).
 
-#### 4.1. Gradient Boosted Trees (GBT) Classifier
+#### 5.1. Gradient Boosted Trees (GBT) Classifier
 *Predicts whether correction improves WER by >3%*
 
 | Rank | Feature | Importance | Type | Description |
@@ -215,7 +224,7 @@ To understand how different routing models prioritize features, we extract the t
 | 9 | `upper_ratio` | 0.0283 | Surface | Uppercase letter ratio |
 | 10 | `punct_ratio` | 0.0235 | Surface | Punctuation ratio |
 
-#### 4.2. Linear Support Vector Machine (SVM) Classifier
+#### 5.2. Linear Support Vector Machine (SVM) Classifier
 *Predicts whether correction improves WER by >3%*
 
 | Rank | Feature | Coefficient | Type | Description |
@@ -231,7 +240,7 @@ To understand how different routing models prioritize features, we extract the t
 | 9 | `freq_o` | -0.4833 | Surface | Frequency of letter 'o' |
 | 10 | `freq_j` | -0.4806 | Surface | Frequency of letter 'j' |
 
-#### 4.3. Ridge Regression
+#### 5.3. Ridge Regression
 *Predicts raw Word Error Rate (WER)*
 
 | Rank | Feature | Coefficient | Type | Description |
@@ -247,7 +256,7 @@ To understand how different routing models prioritize features, we extract the t
 | 9 | `freq_g` | +0.0174 | Surface | Frequency of letter 'g' |
 | 10 | `space_ratio` | +0.0172 | Surface | Higher spacing ratio |
 
-#### 4.4. Lasso Regression
+#### 5.4. Lasso Regression
 *Predicts raw Word Error Rate (WER)*
 
 | Rank | Feature | Coefficient | Type | Description |
@@ -263,7 +272,7 @@ To understand how different routing models prioritize features, we extract the t
 | 9 | `freq_c` | -0.0274 | Surface | Frequency of letter 'c' |
 | 10 | `freq_l` | -0.0273 | Surface | Frequency of letter 'l' |
 
-#### 4.5. Lasso Delta Regression (Our Routing Signal)
+#### 5.5. Lasso Delta Regression (Our Routing Signal)
 *Predicts Delta (Improvement in WER/CER) directly*
 
 | Rank | Feature | Coefficient | Type | Description |
@@ -278,13 +287,6 @@ To understand how different routing models prioritize features, we extract the t
 | 8 | `freq_l` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
 | 9 | `freq_k` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
 | 10 | `freq_j` | 0.0000 | Surface | Zeroed (Shrunk by Lasso L1 regularisation) |
-
-
-
-### 5. Routing Strategy Performance Comparison Chart
-Below is the visualization comparing our three main routing strategies against the baseline and full correction.
-
-![Correction Strategies Comparison](results/figures/correction_strategies_comparison.png)
 
 ---
 *This project is part of the research for CIKM 2026.*
