@@ -183,7 +183,7 @@ MODEL_NAMES = {
     "openai/gpt-4o-mini": "GPT-4o-mini",
     "meta-llama/llama-3.3-70b-instruct": "Llama 3.3 70B",
     "qwen/qwen-2.5-72b-instruct": "Qwen 2.5 72B",
-    "mistralai/mistral-small-3.1-24b-instruct": "Mistral Small 3.1",
+    "google/gemma-4-31b-it": "Gemma 4 31B",
 }
 
 models_clean = {MODEL_NAMES.get(k, k): v for k, v in model_best.items()}
@@ -824,7 +824,7 @@ MODEL_SHORT = {
     "openai/gpt-4o":                            "GPT-4o",
     "openai/gpt-4o-mini":                       "GPT-4o-mini",
     "meta-llama/llama-3.3-70b-instruct":        "Llama 3.3 70B",
-    "mistralai/mistral-small-3.1-24b-instruct": "Mistral Small",
+    "google/gemma-4-31b-it":                    "Gemma 4",
     "qwen/qwen-2.5-72b-instruct":               "Qwen 2.5 72B",
 }
 prompt_ids = [p for p, _ in PROMPT_LEVELS]

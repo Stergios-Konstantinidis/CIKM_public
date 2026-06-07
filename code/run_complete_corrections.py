@@ -44,7 +44,7 @@ models_to_complete = [
     "google/gemini-3.1-flash-lite-preview",
     "openai/gpt-4o",
     "qwen/qwen-2.5-72b-instruct",
-    "mistralai/mistral-small-3.1-24b-instruct",
+    "google/gemma-4-31b-it",
 ]
 
 for llm_model in models_to_complete:

@@ -83,6 +83,7 @@ DEFAULT_LLM_MODELS = [
     "openai/gpt-4o-mini",
     "meta-llama/llama-3.3-70b-instruct",
     "mistralai/mistral-small-3.1-24b-instruct",
+    "google/gemma-4-31b-it",
     "qwen/qwen-2.5-72b-instruct",
     #"google/gemini-2.5-pro-preview",
 ]
@@ -1183,6 +1184,8 @@ def main():
     experiments = []
     for llm_model in llm_models:
         for prompt in sample_prompts:
+            if llm_model == "google/gemma-4-31b-it" and prompt["id"] == 9:
+                continue
             base_strategy = (
                 prompt["level"]
                 .replace(" ", "_")

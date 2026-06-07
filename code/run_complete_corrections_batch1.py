@@ -41,7 +41,7 @@ with open(data_dir / "raw_ocr_results.json", "r") as f:
 print(f"OCR cache engines: {list(ocr_cache.keys())}")
 
 models_to_complete = [
-    "mistralai/mistral-small-3.1-24b-instruct",
+    "google/gemma-4-31b-it",
 ]
 
 # Force batch size = 1

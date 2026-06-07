@@ -202,12 +202,12 @@ LLM cost and routing performance comparison on Tesseract OCR. Costs are scaled t
 
 | LLM Model | CER | WER | Full Cost (10M docs) | Routed Cost (10M docs) |
 | :--- | :---: | :---: | :---: | :---: |
-| **Gemini 3 Flash** | 0.0326 | 0.1198 | \$2,370 | \$830 |
-| **Gemini 3.1 Flash Lite** | 0.0444 | 0.1374 | \$1,180 | \$410 |
-| **GPT-4o** | 0.0436 | 0.1445 | \$8,940 | \$3,140 |
-| **Qwen 2.5-72B** | 0.0564 | 0.1625 | — | — |
-| **Mistral 3.1-24B** | 0.9893 | 0.8720 | — | — |
-| *Baseline Tesseract (No correction)* | 0.0632 | 0.2335 | — | — |
+| **Gemini 3 Flash** | 0.033 | 0.120 | \$237 | \$83 |
+| **Gemini 3.1 Flash Lite** | 0.048 | 0.154 | \$118 | \$41 |
+| **GPT-4o** | 0.046 | 0.154 | \$894 | \$314 |
+| **Qwen 2.5-72B** | 0.060 | 0.169 | — | — |
+| **Gemma 4 31B** | 0.043 | 0.150 | — | — |
+| *Baseline Tesseract (No correction)* | 0.063 | 0.234 | — | — |
 
 ### 5. Model Understanding & Feature Salience
 To understand how different routing models prioritize features, we extract the top 10 coefficients for the Lasso Regression model.
