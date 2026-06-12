@@ -198,16 +198,16 @@ Below is the correlation scatter plot of the predicted versus actual CER improve
 ![Predicted vs Actual CER](paper/figures/predicted_vs_actual_cer_loo_cv10.png)
 
 ### 4. Downstream Correction LLM Model Comparison (Table 3 from Paper)
-LLM cost and routing performance comparison on Tesseract OCR. Costs are scaled to 10M segments.
+LLM cost comparison on Tesseract OCR. Full correction ("Cost (full)") vs. our routing ("Cost (routed)"). Open-source models have $0 API cost.
 
-| LLM Model | CER | WER | Full Cost (10M docs) | Routed Cost (10M docs) |
-| :--- | :---: | :---: | :---: | :---: |
-| **Gemini 3 Flash** | 0.033 | 0.120 | \$237 | \$83 |
-| **Gemini 3.1 Flash Lite** | 0.048 | 0.154 | \$118 | \$41 |
-| **GPT-4o** | 0.046 | 0.154 | \$894 | \$314 |
-| **Qwen 2.5-72B** | 0.060 | 0.169 | — | — |
-| **Gemma 4 31B** | 0.043 | 0.150 | — | — |
-| *Baseline Tesseract (No correction)* | 0.063 | 0.234 | — | — |
+| LLM Model | CER (full) | WER (full) | CER (routed) | WER (routed) | Cost (Full) | Cost (routed) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Gemini 3 Flash** | 0.029 | 0.097 | 0.033 | 0.120 | \$0.182 | \$0.064 |
+| **Gemini 3.1 Flash Lite** | 0.040 | 0.109 | 0.048 | 0.154 | \$0.087 | \$0.031 |
+| **GPT-4o** | 0.049 | 0.128 | 0.046 | 0.154 | \$0.738 | \$0.259 |
+| **Gemma 4 31B** | 0.039 | 0.123 | 0.043 | 0.150 | \$0 | \$0 |
+| **Qwen 2.5-72B** | 0.058 | 0.208 | 0.060 | 0.169 | \$0 | \$0 |
+| *No correction* | 0.063 | 0.234 | 0.063 | 0.234 | — | — |
 
 ### 5. Model Understanding & Feature Salience
 To understand how different routing models prioritize features, we extract the top 10 coefficients for the Lasso Regression model.
